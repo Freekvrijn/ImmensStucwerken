@@ -1,0 +1,12 @@
+{
+    "beheer": {
+        "ips": [],
+        "landen": []
+    },
+    "site": {
+        "ips": [],
+        "landen": []
+    },
+    "whitelist": []
+}
+

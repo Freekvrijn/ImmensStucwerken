@@ -1,0 +1,61 @@
+/* Site-adapter voor de publieke contentblokken uit cms-template. */
+.tekstrijen-zone{--paper:#fff;--mint:var(--vlak);--ink:var(--inkt);--muted:var(--subtiel);--line:var(--lijn);--radius:0;--shadow:none;--forest:var(--blauw);--emerald-600:var(--blauw)}
+.tekstrij .section{padding:42px 30px;margin-block:30px;color:var(--ink)}
+.tekstrij .bg-paper{background:var(--paper)}
+.tekstrij .bg-mint{background:var(--mint)}
+.tekstrij .container{width:100%;max-width:1100px;margin-inline:auto}
+.tekstrij .eyebrow{display:block;font-size:12px;margin-bottom:16px;color:var(--blauw)}
+.tekstrij .btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:12px 22px;background:var(--blauw);border:1px solid var(--blauw);color:white;font-size:12px;font-weight:600}
+.thema-blauwdruk .tekstrijen-zone{--ink:#203345;--muted:#546575;--mint:#e6eef4;--line:#c2ced7}
+@media(max-width:620px){.tekstrij .section{padding:30px 20px}}
+/* Tekstrijen gebruiken dezelfde kleuren, koppen en knoppen als de website. */
+.tekstrijen-zone, .tekstrij { scroll-margin-top: 210px; }
+.tekstrij-kolommen { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(260px,.8fr); gap: clamp(1.5rem,4vw,3.5rem); align-items: center; }
+.tekstrij-inhoud { min-width: 0; }
+.tekstrij-tekst { margin-top: .65rem; color: var(--muted); font-size: 1.08rem; overflow-wrap: anywhere; }
+.tekstrij-tekst ul, .tekstrij-tekst ol { padding-left: 1.4em; margin-block: .6em; }
+.tekstrij-tekst a { text-decoration: underline; }
+.tekstrij-kader { padding: 1.4rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--mint); min-width: 0; }
+.bg-mint .tekstrij-kader { background: var(--paper); }
+.tekstrij-knop { margin-top: 1.2rem; }
+.tekstrij-knop .btn { white-space: normal; overflow-wrap: anywhere; max-width: 100%; }
+.tekstrij-kader .tekstrij-knop .btn { width: 100%; }
+.tekstrij h2, .tekstrij .eyebrow { overflow-wrap: anywhere; }
+/* Ook zonder JavaScript of editor-CSS blijven beheerknoppen uit bezoekersweergaven. */
+.rij-invoegen, .rij-acties { display: none; }
+/* Tekst met een afbeelding ernaast */
+.tekstrij-met-afbeelding { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(1.5rem,4vw,3.5rem); align-items: center; }
+.tekstrij-met-afbeelding--links .tekstrij-afbeelding { order: -1; }
+.tekstrij-afbeelding { margin: 0; }
+.tekstrij-afbeelding img { display: block; width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); }
+/* Blokken naast elkaar */
+.tekstrij-kaarten { display: grid; gap: clamp(1rem,2.5vw,1.6rem); margin-top: 1.6rem; }
+.tekstrij-kaarten--2 { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.tekstrij-kaarten--3 { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.section-head + .tekstrij-kaarten { margin-top: 1.8rem; }
+.tekstrij-kaart { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow-sm, 0 2px 10px rgba(0,0,0,.05)); }
+.bg-paper .tekstrij-kaart { background: #fff; }
+.tekstrij-kaart__foto { aspect-ratio: 4 / 3; overflow: hidden; background: var(--mint); }
+.tekstrij-kaart__foto img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+.tekstrij-kaart:hover .tekstrij-kaart__foto img { transform: scale(1.03); }
+.tekstrij-kaart__tekst { display: flex; flex-direction: column; gap: .5rem; padding: 1.1rem 1.2rem 1.3rem; flex: 1; }
+.tekstrij-kaart__tekst h3 { margin: 0; font-size: 1.2rem; overflow-wrap: anywhere; }
+.tekstrij-kaart__tekst h3 a { color: inherit; }
+.tekstrij-kaart__tekst p { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
+.tekstrij-kaart__link { margin-top: auto; padding-top: .4rem; font-weight: 700; color: var(--emerald-600, var(--forest)); }
+.tekstrij-kaart__link:hover { text-decoration: underline; }
+@media (max-width: 760px) {
+  .tekstrij-kolommen, .tekstrij-met-afbeelding { grid-template-columns: 1fr; }
+  .tekstrij-met-afbeelding--links .tekstrij-afbeelding { order: 0; }
+  .tekstrij-kaarten--2, .tekstrij-kaarten--3 { grid-template-columns: 1fr; }
+}
+@media (min-width: 761px) and (max-width: 980px) { .tekstrij-kaarten--3 { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+/* Koppen in tekstrijen: de rijkop kan H2 of H3 zijn, en de rijtekst mag
+   tussenkoppen bevatten. Zelfde lettertype en kleur als de rest van de site. */
+.section-head h3.tekstrij-kop { font-size: calc(clamp(1.35rem, 2.6vw, 1.8rem) * var(--kop-schaal, 1)); }
+.tekstrij-tekst h2, .tekstrij-tekst h3 { margin: 1.4em 0 .45em; }
+.tekstrij-tekst h2 { font-size: calc(clamp(1.35rem, 2.6vw, 1.8rem) * var(--kop-schaal, 1)); }
+.tekstrij-tekst h3 { font-size: calc(clamp(1.15rem, 2vw, 1.4rem) * var(--kop-schaal, 1)); }
+.tekstrij-tekst > :first-child { margin-top: 0; }
+.tekstrij-tekst p { margin: 0 0 .8em; }
+.tekstrij-tekst p:last-child { margin-bottom: 0; }

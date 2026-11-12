@@ -1,0 +1,12 @@
+{
+    "contact": {
+        "naam": "Projectaanvraag",
+        "actief": true,
+        "mail_to": "",
+        "mail_bcc": "",
+        "mail_from": "",
+        "mail_from_naam": "Immens Stucwerken",
+        "subject_prefix": "Nieuw bericht via de website",
+        "autoresponder": false
+    }
+}

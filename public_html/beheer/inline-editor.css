@@ -1,0 +1,120 @@
+/* Inline-bewerkmodus op de publieke pagina — proefversie (Diensten). */
+
+.inl-bewerken-toggle {
+  position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 150;
+  background: #0b6b46; color: #fff; border: 0; border-radius: 999px;
+  padding: .7rem 1.2rem; font-size: .9rem; font-weight: 600; cursor: pointer;
+  box-shadow: 0 8px 24px rgba(11,107,70,.35); display: inline-flex; align-items: center; gap: .4rem;
+  font-family: inherit;
+}
+.inl-bewerken-toggle:hover { background: #095c3c; }
+.inl-bewerken-toggle.is-actief { background: #16231c; }
+.inl-bewerken-toggle svg { width: 16px; height: 16px; flex: none; }
+
+.inl-account-acties { position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 150; display: flex; align-items: center; gap: .5rem; padding: .35rem; border-radius: 999px; background: #fff; box-shadow: 0 6px 28px #16231c26; }
+.inl-account-acties .inl-bewerken-toggle { position: static; box-shadow: none; }
+.inl-account-acties form { margin: 0; }
+.inl-uitloggen { padding: .7rem 1rem; border: 1px solid #d8ddd7; border-radius: 999px; background: #fff; color: #16231c; font: inherit; font-size: .9rem; cursor: pointer; }
+.inl-uitloggen:hover { background: #edf3ef; }
+body.inl-bewerkmodus-aan .rij-invoegen, body.inl-bewerkmodus-aan .rij-acties { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; padding-block: .75rem; }
+.rij-invoegen { color: #375947; font-size: .82rem; }
+.rij-invoegen > span, .rij-acties > span { margin-right: auto; font-size: .82rem; font-weight: 600; }
+body.inl-bewerkmodus-aan .tekstrij { outline: 1px dashed #76a78a; outline-offset: -1px; }
+.rij-acties { background: #edf6f0; color: #193b29; }
+.rij-invoegen button, .rij-acties button { border: 1px solid #bad2c2; border-radius: 7px; padding: .45rem .7rem; background: #fff; color: #20563a; font: inherit; font-size: .8rem; cursor: pointer; }
+.rij-invoegen button:hover, .rij-acties button:hover { background: #dcece1; }
+.rij-acties .rij-verwijderen { color: #a0322a; border-color: #e0b9b6; }
+.rij-zone-status { flex-basis: 100%; color: #a0322a; margin: 0; }
+.rij-zone-status:empty { display: none; }
+.rij-modal label { display: block; font-size: .9rem; font-weight: 600; margin: .8rem 0 .35rem; color: #193b29; }
+.rij-modal small { font-weight: 400; }
+.rij-modal input, .rij-modal select { display: block; width: 100%; min-width: 0; padding: .6rem .7rem; border: 1px solid #bdcfc3; border-radius: 7px; margin-top: .3rem; background: #fff; color: #16231c; font: inherit; }
+.rij-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.rij-tekstvoorbeeld { border: 1px solid #d8ddd7; border-radius: 8px; padding: .75rem; min-height: 65px; max-height: 180px; overflow: auto; margin-bottom: .5rem; font-size: .95rem; }
+.rij-tekstvoorbeeld ul, .rij-tekstvoorbeeld ol { margin-left: 1.3rem; }
+.rij-knopvelden { border: 1px solid #d8ddd7; border-radius: 8px; padding: .5rem .8rem .8rem; margin-block: 1rem; }
+.rij-knopvelden legend { padding-inline: .3rem; font-size: .9rem; }
+.rij-hint { color: #62746a; font-size: .8rem; margin-top: .65rem; }
+.rij-modal .rijk-veld__bewerk { margin-bottom: .4rem; }
+.rij-modal textarea { display: block; width: 100%; padding: .6rem .7rem; border: 1px solid #bdcfc3; border-radius: 7px; margin-top: .3rem; font: inherit; resize: vertical; }
+.rij-kaart { border: 1px solid #d8ddd7; border-radius: 8px; padding: .5rem .8rem .8rem; margin-block: .8rem; }
+.rij-kaart legend { padding-inline: .3rem; font-size: .9rem; font-weight: 700; }
+.rij-foto { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin: .4rem 0; }
+.rij-foto img { width: 120px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid #d8ddd7; }
+.rij-modal .rij-foto__kies { display: inline-flex; margin: 0; padding: .45rem .75rem; border: 1px solid #bad2c2; border-radius: 7px; background: #fff; color: #20563a; font-size: .82rem; cursor: pointer; }
+.rij-modal .rij-foto__kies input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.rij-foto__kies:focus-within { outline: 2px solid #62a27f; outline-offset: 2px; }
+.rij-foto__weg { border: 1px solid #e0b9b6; border-radius: 7px; padding: .45rem .7rem; background: #fff; color: #a0322a; font: inherit; font-size: .8rem; cursor: pointer; }
+.rij-foto__status { color: #a0322a; font-size: .82rem; }
+@media (max-width: 600px) {
+  .inl-account-acties { right: .6rem; bottom: .6rem; max-width: calc(100vw - 1.2rem); }
+  .inl-account-acties button { padding: .65rem .85rem; font-size: .82rem; }
+  .rij-acties > span, .rij-invoegen > span { flex-basis: 100%; }
+  .rij-form-grid { grid-template-columns: 1fr; gap: 0; }
+}
+
+/* Het potloodje zit ín het bewerkte element (h1/p/h2/td/span). display:none
+   totdat de bewerkmodus aanstaat, zodat bezoekers er nooit iets van zien. */
+.inl-potlood {
+  display: none; align-items: center; justify-content: center;
+  width: 24px; height: 24px; margin-left: .45rem; vertical-align: middle;
+  border-radius: 6px; border: 1px solid #d8ddd7; background: #fff; color: #0b6b46;
+  cursor: pointer; padding: 0;
+}
+.inl-potlood svg { width: 13px; height: 13px; }
+.inl-potlood:hover { background: #0b6b46; color: #fff; border-color: #0b6b46; }
+
+body.inl-bewerkmodus-aan .inl-veld {
+  outline: 1px dashed rgba(11,107,70,.45); outline-offset: 4px; border-radius: 4px;
+}
+body.inl-bewerkmodus-aan .inl-potlood { display: inline-flex; }
+
+.inl-status { font-size: .85rem; color: #b3261e; min-height: 1.2em; margin: -.3rem 0 .6rem; }
+
+/* Afbeeldingen: knop zweeft rechtsboven op de foto, alleen zichtbaar in
+   bewerkmodus. De wrapper (meestal de <a>/<div> die de <img> omsluit) krijgt
+   position:relative zodat de knop er precies op valt. */
+.inl-veld-afb { position: relative; }
+/* .steen-foto-item is normaal "display:contents" (onzichtbaar voor de layout,
+   zie assets/css/styles.css) zodat het raster met 2 foto's naast elkaar blijft
+   werken. In bewerkmodus heeft het element zelf een doos nodig om het
+   camera-knopje op te positioneren — vandaar deze specifieke override. */
+.inl-veld-afb.steen-foto-item { display: block; }
+body.inl-bewerkmodus-aan .inl-veld-afb {
+  outline: 1px dashed rgba(11,107,70,.45); outline-offset: 2px; border-radius: 6px;
+}
+.inl-foto-knop {
+  display: none; position: absolute; top: .6rem; right: .6rem; z-index: 5;
+  width: 34px; height: 34px; align-items: center; justify-content: center;
+  border-radius: 8px; border: 1px solid rgba(255,255,255,.55);
+  background: rgba(11,35,20,.72); color: #fff; cursor: pointer; padding: 0;
+}
+.inl-foto-knop svg { width: 17px; height: 17px; }
+.inl-foto-knop:hover { background: #0b6b46; }
+.inl-foto-knop:disabled { opacity: .6; cursor: default; }
+body.inl-bewerkmodus-aan .inl-foto-knop { display: inline-flex; }
+
+.inl-foto-status {
+  position: absolute; left: .6rem; bottom: .6rem; z-index: 5;
+  background: rgba(15,25,18,.78); color: #fff; font-size: .78rem;
+  padding: .3rem .55rem; border-radius: 6px;
+}
+
+/* Knop-/linkbestemmingen: het potloodje zit ín de <a>, dus klein en subtiel. */
+.inl-veld-link { position: relative; }
+.inl-potlood--link {
+  display: none; margin-left: .4rem; width: 20px; height: 20px;
+  border-radius: 5px; border: 1px solid currentColor; opacity: .75;
+}
+.inl-potlood--link svg { width: 11px; height: 11px; }
+.inl-potlood--link:hover { opacity: 1; }
+body.inl-bewerkmodus-aan .inl-potlood--link { display: inline-flex; }
+
+.inl-btnlink-modal__paneel { width: min(420px, 92vw); }
+.inl-btnlink-modal__label { display: flex; flex-direction: column; gap: .4rem; font-size: .9rem; margin-bottom: .3rem; }
+.inl-btnlink-modal__label input {
+  border: 1px solid #d8ddd7; border-radius: 8px; padding: .55rem .7rem; font: inherit;
+}
+.rij-form-grid--kop { grid-template-columns: minmax(0, 1fr) 13rem; }
+@media (max-width: 640px) { .rij-form-grid--kop { grid-template-columns: 1fr; } }
+.rij-modal textarea[hidden] { display: none; }

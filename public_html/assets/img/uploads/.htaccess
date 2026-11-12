@@ -1,0 +1,27 @@
+# In deze map staan uitsluitend door het beheerpaneel geüploade afbeeldingen.
+# Voer hier nooit scripts uit — ook niet als er ooit iets ongewenst binnenkomt.
+
+# mod_php (indien in gebruik): PHP-verwerking uit.
+<IfModule mod_php.c>
+  php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+  php_flag engine off
+</IfModule>
+
+# Blokkeer het opvragen van alles wat uitvoerbaar zou kunnen zijn.
+<FilesMatch "\.(?i:php|phtml|phar|php[0-9]|pl|py|cgi|sh|htm|html|shtml)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# Handlers ontkoppelen (werkt ook onder PHP-FPM/CGI).
+<IfModule mod_mime.c>
+  RemoveHandler .php .phtml .phar .php3 .php4 .php5 .php7 .php8 .cgi .pl .py
+  RemoveType .php .phtml .phar .php3 .php4 .php5 .php7 .php8
+</IfModule>

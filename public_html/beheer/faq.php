@@ -1,0 +1,24 @@
+<?php
+require_once __DIR__ . '/../_lib/auth.php';
+require_once __DIR__ . '/../_lib/helpers.php';
+require_once __DIR__ . '/../_lib/data.php';
+require_once __DIR__ . '/../_lib/cms.php';
+auth_boot();require_login('content');if(!cms_module_aan('faq')){header('Location: index.php');exit;}
+function faq_index($items,$id){foreach($items as $i=>$item){if(($item['id']??'')===$id)return $i;}return -1;}
+$items=load_json('faq.json',array());$actie=(string)($_GET['actie']??'lijst');$item=null;$msg='';
+if($_SERVER['REQUEST_METHOD']==='POST'){
+if(!csrf_check()){$msg='Sessie verlopen, probeer het opnieuw.';}else{$post=(string)($_POST['actie']??'');$id=(string)($_POST['id']??'');$index=faq_index($items,$id);
+if($post==='verwijderen'&&$index>=0){array_splice($items,$index,1);save_json('faq.json',array_values($items));header('Location: faq.php?verwijderd=1');exit;}
+if($post==='verplaatsen'&&$index>=0){$doel=(($_POST['richting']??'')==='omhoog')?$index-1:$index+1;if(isset($items[$doel])){$tmp=$items[$index];$items[$index]=$items[$doel];$items[$doel]=$tmp;}save_json('faq.json',array_values($items));header('Location: faq.php');exit;}
+if($post==='opslaan'){$vraag=trim((string)($_POST['vraag']??''));$antwoord=trim(veld_html_opslaan((string)($_POST['antwoord']??'')));$actief=!empty($_POST['actief']);
+if($vraag===''||trim(strip_tags($antwoord))===''){$msg='Vul een vraag en antwoord in.';$actie='form';$item=array('id'=>$id,'vraag'=>$vraag,'antwoord'=>$antwoord,'actief'=>$actief);}
+else{$nieuw=array('id'=>$id!==''?$id:cms_nieuwe_id('faq'),'vraag'=>$vraag,'antwoord'=>$antwoord,'actief'=>$actief);if($index>=0)$items[$index]=$nieuw;else$items[]=$nieuw;save_json('faq.json',array_values($items));header('Location: faq.php?opgeslagen=1');exit;}}
+}}
+if($actie==='nieuw'){$item=array('id'=>'','vraag'=>'','antwoord'=>'','actief'=>true);$actie='form';}elseif($actie==='bewerk'){$index=faq_index($items,(string)($_GET['id']??''));if($index<0){header('Location: faq.php');exit;}$item=$items[$index];$actie='form';}
+$pageTitle='Veelgestelde vragen';require __DIR__.'/_head.php';if(isset($_GET['opgeslagen']))echo '<p class="msg ok">Vraag opgeslagen.</p>';if(isset($_GET['verwijderd']))echo '<p class="msg ok">Vraag verwijderd.</p>';if($msg)echo '<p class="msg err">'.e($msg).'</p>';
+if($actie==='form'):
+?>
+<div class="head-row"><h1><?= empty($item['id'])?'Nieuwe vraag':'Vraag bewerken' ?></h1><a class="btn ghost" href="faq.php">Terug</a></div><form method="post" class="stack"><?= csrf_field() ?><input type="hidden" name="actie" value="opslaan"><input type="hidden" name="id" value="<?= e($item['id']??'') ?>"><label class="field"><span>Vraag</span><input type="text" name="vraag" value="<?= e($item['vraag']??'') ?>" required></label><label class="field"><span>Antwoord</span><textarea name="antwoord" rows="8" required><?= e($item['antwoord']??'') ?></textarea><small class="hint">Veilige eenvoudige HTML-opmaak wordt ondersteund.</small></label><label class="field-check"><input type="checkbox" name="actief" value="1"<?= !empty($item['actief'])?' checked':'' ?>><span>Zichtbaar</span></label><div class="actions"><button class="btn">Opslaan</button><a class="btn ghost" href="faq.php">Annuleren</a></div></form>
+<?php else:?>
+<div class="head-row"><h1>Veelgestelde vragen</h1><a class="btn" href="?actie=nieuw">+ Nieuwe vraag</a></div><p class="lead">Voeg onbeperkt vragen toe en bepaal met de pijlen de volgorde.</p><?php if(!$items):?><div class="info-blok"><p>Er zijn nog geen vragen.</p></div><?php else:?><table class="list faq-beheer-lijst"><thead><tr><th>Vraag</th><th>Antwoord</th><th>Status</th><th class="right">Acties</th></tr></thead><tbody><?php foreach($items as $positie=>$rij):?><tr><td><strong><?= e($rij['vraag']??'') ?></strong></td><td><span class="faq-antwoord-preview"><?= e(trim(strip_tags($rij['antwoord']??''))) ?></span></td><td><span class="badge <?= !empty($rij['actief'])?'ok':'err' ?>"><?= !empty($rij['actief'])?'zichtbaar':'verborgen' ?></span></td><td class="acties right"><form method="post"><?= csrf_field() ?><input type="hidden" name="actie" value="verplaatsen"><input type="hidden" name="id" value="<?= e($rij['id']) ?>"><button class="volgorde-knop" name="richting" value="omhoog"<?= $positie===0?' disabled':'' ?>>↑</button><button class="volgorde-knop" name="richting" value="omlaag"<?= $positie===count($items)-1?' disabled':'' ?>>↓</button></form><a href="?actie=bewerk&amp;id=<?= e(urlencode($rij['id'])) ?>">Bewerken</a><form method="post" data-confirm="Deze vraag verwijderen?"><?= csrf_field() ?><input type="hidden" name="actie" value="verwijderen"><input type="hidden" name="id" value="<?= e($rij['id']) ?>"><button class="link-del">Verwijderen</button></form></td></tr><?php endforeach;?></tbody></table><?php endif;endif;require __DIR__.'/_foot.php';?>
+

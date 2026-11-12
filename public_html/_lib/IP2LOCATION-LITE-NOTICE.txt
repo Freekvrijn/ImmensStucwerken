@@ -1,0 +1,14 @@
+Deze CMS-template bevat een kopie van de IP2Location LITE DB1-database om
+lokale landherkenning zonder externe IP-aanvraag direct mogelijk te maken.
+
+Verplichte naamsvermelding voor iedere gekoppelde publieke website:
+
+[Sitenaam] uses the IP2Location LITE database for IP geolocation.
+https://www.ip2location.com
+
+De LITE-database mag met een toepassing worden verspreid met naamsvermelding.
+Voor maandelijkse updates moet de eigenaar van iedere site een eigen gratis
+IP2Location-account en downloadtoken gebruiken. Deel nooit een account of token
+tussen klanten of websites.
+
+Voorwaarden: https://lite.ip2location.com/data-license

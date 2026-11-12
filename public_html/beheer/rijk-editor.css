@@ -1,0 +1,63 @@
+.rijk-veld { display: flex; flex-direction: column; gap: .5rem; }
+.rijk-veld__voorbeeld {
+  border: 1px solid #d8ddd7; border-radius: 8px; padding: .6rem .8rem;
+  min-height: 2.4em; background: #fff; font: inherit; line-height: 1.5;
+}
+.rijk-veld__voorbeeld ul { margin: .3em 0 .3em 1.2em; }
+.rijk-veld__voorbeeld a { color: #0b6b46; text-decoration: underline; }
+.rijk-veld__leeg { color: #9aa39c; font-style: italic; }
+.rijk-veld__bewerk {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: .4rem;
+  border: 1px solid #d8ddd7; background: #f4f7f4; border-radius: 6px;
+  padding: .35rem .7rem; font-size: .88rem; cursor: pointer;
+}
+.rijk-veld__bewerk:hover { background: #e9efe9; }
+.rijk-veld__bewerk svg { width: 15px; height: 15px; }
+
+.rijk-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; }
+.rijk-modal[hidden] { display: none; }
+.rijk-modal__scherm { position: absolute; inset: 0; background: rgba(15,25,18,.5); }
+.rijk-modal__paneel {
+  position: relative; background: #fff; border-radius: 12px; width: min(640px, 92vw);
+  max-height: 88vh; overflow: auto; padding: 1.2rem 1.3rem 1.4rem; box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.rijk-modal__kop { display: flex; align-items: center; justify-content: space-between; margin-bottom: .8rem; }
+.rijk-modal__kop h3 { margin: 0; font-size: 1.1rem; }
+.rijk-modal__sluit { border: 0; background: none; font-size: 1.4rem; line-height: 1; cursor: pointer; color: #666; }
+.rijk-modal__balk { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin-bottom: .6rem; }
+.rijk-modal__balk button {
+  border: 1px solid #d8ddd7; background: #f4f7f4; border-radius: 6px; padding: .35rem .65rem;
+  font-size: .88rem; cursor: pointer;
+}
+.rijk-modal__balk button:hover, .rijk-modal__balk button.actief { background: #0b6b46; color: #fff; border-color: #0b6b46; }
+.rijk-modal__balk-scheiding { flex: 1; }
+.rijk-modal__voorbeeldrij { margin-bottom: .6rem; }
+.rijk-modal__kleurknop {
+  display: inline-flex; align-items: center; border: 1px solid #d8ddd7; background: #f4f7f4;
+  border-radius: 6px; padding: .2rem; cursor: pointer; line-height: 0;
+}
+.rijk-modal__kleurknop input[type="color"] {
+  width: 26px; height: 22px; border: 0; padding: 0; background: none; cursor: pointer;
+}
+.rijk-modal__balk select {
+  border: 1px solid #d8ddd7; background: #f4f7f4; border-radius: 6px; padding: .35rem .5rem;
+  font-size: .85rem; cursor: pointer;
+}
+.rijk-modal__link-vak {
+  display: flex; flex-direction: column; gap: .5rem; background: #f4f7f4; border: 1px solid #d8ddd7;
+  border-radius: 8px; padding: .7rem .8rem; margin-bottom: .6rem;
+}
+.rijk-modal__link-vak label { display: flex; flex-direction: column; gap: .3rem; font-size: .85rem; }
+.rijk-modal__link-vak input[type="text"] { border: 1px solid #d8ddd7; border-radius: 6px; padding: .4rem .55rem; font: inherit; }
+.rijk-modal__link-tab { flex-direction: row !important; align-items: center; gap: .4rem !important; }
+.rijk-modal__link-acties { display: flex; gap: .5rem; }
+.rijk-modal__editor, .rijk-modal__voorbeeld {
+  min-height: 140px; border: 1px solid #d8ddd7; border-radius: 8px; padding: .7rem .9rem;
+  line-height: 1.55; margin-bottom: .9rem;
+}
+.rijk-modal__editor:focus { outline: 2px solid #0b6b46; outline-offset: 1px; }
+.rijk-modal__voorbeeld ul { margin: .3em 0 .3em 1.2em; }
+.rijk-modal__voorbeeld a { color: #0b6b46; text-decoration: underline; }
+.rijk-modal__voet { display: flex; gap: .6rem; }
+.rijk-modal__balk select[hidden] { display: none; }
+.rijk-modal__link-vak[hidden] { display: none; }

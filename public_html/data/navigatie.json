@@ -1,0 +1,29 @@
+[
+    {
+        "label": "Stucwerk",
+        "url": "#stucwerk",
+        "actief": true,
+        "locatie": "hoofd",
+        "volgorde": 0,
+        "id": "menu-1",
+        "nieuw_venster": false
+    },
+    {
+        "label": "Projecten",
+        "url": "#projecten",
+        "actief": true,
+        "locatie": "hoofd",
+        "volgorde": 1,
+        "id": "menu-2",
+        "nieuw_venster": false
+    },
+    {
+        "label": "Werkwijze",
+        "url": "#werkwijze",
+        "actief": true,
+        "locatie": "hoofd",
+        "volgorde": 2,
+        "id": "menu-3",
+        "nieuw_venster": false
+    }
+]
