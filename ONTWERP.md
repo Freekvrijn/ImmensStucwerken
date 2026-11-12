@@ -5,6 +5,7 @@ Vier lokale, afzonderlijk opgebouwde ontwerpvoorstellen. Nog geen publicatie.
 ## Huisstijl en ontwerpplan
 
 Bron: `bronmateriaal/logo-origineel.pdf`. Het bestaande logo is ongewijzigd naar PNG gerenderd.
+Voor blauwe achtergronden is daarnaast `public_html/assets/img/logo-immens-op-blauw.png` toegevoegd: een transparante, lichte variant, gemaakt met de ingebouwde imagegen-tool. Deze wordt gebruikt in Blauwdruk en Werkplaats. De gebruikte prompt staat in `bronmateriaal/logo-op-blauw-prompt.txt`. Beide logo's zijn te wijzigen via de CMS-pagina Algemeen.
 Palet: diepblauw #174c85, helderblauw #73bdf2, marine #102e4d, zilver #b5b7b9, koelwit #f5f7f8 en wit #ffffff.
 
 | Richting | Typografie | Indeling | Kenmerk |
@@ -35,6 +36,8 @@ Vanuit deze projectmap: `php -S 127.0.0.1:8104 -t public_html router.php`.
 - `/`: keuzeoverzicht
 - `/atelier`, `/blauwdruk`, `/galerie`, `/werkplaats`: complete voorstellen
 - `/beheer/`: eerste eigen beheeraccount instellen
+
+Boven de ontwerpen staat een blauw uitklapmenu ‘Thema’s’ met de vier varianten. Het werkt via een native details-element, sluit met Escape en sluit na een klik buiten het menu.
 
 De lokale router schakelt alleen voor deze ontwikkelserver de onderhoudsmodule uit. De uploadbestanden houden onderhoud aan. Open de site pas na configuratie via het dashboard. Publieke pagina's staan standaard op noindex.
 

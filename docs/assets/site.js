@@ -1,3 +1,16 @@
+document.querySelectorAll('.thema-menu').forEach((menu) => {
+  document.addEventListener('click', (event) => {
+    if (!menu.contains(event.target)) menu.open = false;
+  });
+  menu.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu.open) {
+      event.preventDefault();
+      menu.open = false;
+      menu.querySelector('summary').focus();
+    }
+  });
+});
+
 document.querySelectorAll('.menu-toggle').forEach((button) => {
   const menu = document.getElementById(button.getAttribute('aria-controls'));
   if (!menu) return;

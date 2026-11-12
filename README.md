@@ -1,6 +1,7 @@
 # Immens Stucwerken
 
 Vier ontwerpvoorstellen met het bestaande logo en kleuren. De foto's hebben afgeronde hoeken; knoppen en andere vlakken behouden hun vorm.
+De ontwerpen zijn te wisselen via het blauwe uitklapmenu ‘Thema’s’. Blauwdruk en Werkplaats gebruiken een transparante, lichte PNG-versie van het logo voor hun blauwe achtergrond. Het originele logo blijft beschikbaar voor witte achtergronden.
 
 Online demo: https://freekvrijn.github.io/ImmensStucwerken/
 

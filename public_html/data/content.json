@@ -26,5 +26,6 @@
     "contact_knop": "Bespreek je project",
     "home_cta_link": "#contact",
     "privacy_titel": "Privacy",
-    "privacy_tekst": "Deze ontwerpversie gebruikt geen bezoekersstatistieken of externe landopzoeking. Het contactformulier bewaart een naam, e-mailadres en projectomschrijving in de beveiligde beheeromgeving, maximaal 90 dagen. In deze lokale versie wordt geen e-mail verstuurd. Er wordt een functionele sessiecookie gebruikt voor formulierbeveiliging en beheer. Verstuur tijdens de ontwerpfase geen echte persoonsgegevens. De definitieve contactgegevens van de verantwoordelijke worden vóór publicatie toegevoegd."
+    "privacy_tekst": "Deze ontwerpversie gebruikt geen bezoekersstatistieken of externe landopzoeking. Het contactformulier bewaart een naam, e-mailadres en projectomschrijving in de beveiligde beheeromgeving, maximaal 90 dagen. In deze lokale versie wordt geen e-mail verstuurd. Er wordt een functionele sessiecookie gebruikt voor formulierbeveiliging en beheer. Verstuur tijdens de ontwerpfase geen echte persoonsgegevens. De definitieve contactgegevens van de verantwoordelijke worden vóór publicatie toegevoegd.",
+    "logo_op_blauw": "assets/img/logo-immens-op-blauw.png"
 }

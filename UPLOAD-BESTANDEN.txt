@@ -1,1 +1,7 @@
+public_html/_lib/site.php
+public_html/_lib/velden.php
+public_html/assets/img/logo-immens-op-blauw.png
 public_html/assets/site.css
+public_html/assets/site.js
+public_html/data/content.json
+public_html/themas/werkplaats.php

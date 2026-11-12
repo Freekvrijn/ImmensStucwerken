@@ -1,0 +1,9 @@
+Tool: built-in image_gen (geen CLI-fallback).
+Bron: public_html/assets/img/logo-immens.png
+Uitvoer: public_html/assets/img/logo-immens-op-blauw.png
+Transparante achtergrond: true
+
+Gebruikte prompt:
+Use case: background-extraction and precise-object-edit. Edit target: the provided existing IMMENS STUCWERKEN logo. Produce exactly one print-sharp transparent-background PNG version of this SAME logo for display on a solid blue website background (#174c85 and #102e4d). Remove the entire white background, including enclosed white negative spaces between all shapes and lettering. Reverse the foreground color treatment to a LIGHT negative version: preserve metallic light silver/white for the S and the word IMMENS; turn the dark royal-blue I/S strokes, blue underlining and STUCWERKEN lettering into very light ice-blue/white so they are fully legible on navy and medium blue. Preserve the exact emblem geometry, the same original 3D bevel/shading style, exact letterforms, exact arrangement, proportions, spacing and horizontal lines. Text VERBATIM exactly 'IMMENS' on first line and 'STUCWERKEN' below, no letter changes. Do not redesign or invent a new logo. Preserve the original 3:2 image aspect ratio and centered composition, retain transparent breathing room. No blue background baked into the output, no checkered pattern baked into the output, no border, no new objects. The background MUST be truly transparent RGBA.
+
+Technische controle: PNG, 1536 x 1024, RGBA met echte transparantie (minimum alfa 0, maximum alfa 254). Er is conform het centrale AGENTS.md geen visuele beoordeling uitgevoerd. De eigenaar beoordeelt de logovariant in de preview.

@@ -31,10 +31,11 @@ function sfeerbijschrift($veld = 'home_afbeelding') {
         echo '<figcaption class="sfeer">Sfeerbeeld. Ruimte voor eigen projectfotografie.</figcaption>';
     }
 }
-function merk($groot = false) {
+function merk($groot = false, $opBlauw = false) {
     global $content, $thema;
-    echo '<a class="merk' . ($groot ? ' merk-groot' : '') . '" href="/' . e($thema) . '" aria-label="Immens Stucwerken, naar boven">';
-    echo '<img src="' . e(fotopad(veld($content, 'logo'))) . '" width="1600" height="1067" alt="Immens Stucwerken">';
+    $logo = $opBlauw ? veld($content, 'logo_op_blauw', 'assets/img/logo-immens-op-blauw.png') : veld($content, 'logo');
+    echo '<a class="merk' . ($groot ? ' merk-groot' : '') . ($opBlauw ? ' merk-op-blauw' : '') . '" href="/' . e($thema) . '" aria-label="Immens Stucwerken, naar boven">';
+    echo '<img src="' . e(fotopad($logo)) . '" width="1600" height="1067" alt="Immens Stucwerken">';
     echo '</a>';
 }
 function menulinks($vanaf = 0, $aantal = null) {
@@ -48,15 +49,15 @@ function menulinks($vanaf = 0, $aantal = null) {
 }
 function previewbalk() {
     global $thema;
-    echo '<aside class="previewbalk" aria-label="Ontwerpen vergelijken"><a class="preview-overzicht" href="/">Alle ontwerpen</a><nav aria-label="Kies een ontwerp">';
+    echo '<aside class="previewbalk" aria-label="Ontwerpen vergelijken"><a class="preview-overzicht" href="/">Alle ontwerpen</a><details class="thema-menu"><summary>Thema’s <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><nav class="thema-keuzes" aria-label="Kies een thema">';
     foreach (ontwerpen() as $key => $ontwerp) {
         echo '<a href="/' . e($key) . '"' . ($thema === $key ? ' aria-current="page"' : '') . '>' . e($ontwerp['naam']) . '</a>';
     }
-    echo '</nav><span class="preview-status">Ontwerpvoorstellen</span></aside>';
+    echo '</nav></details></aside>';
 }
 function sitekop() {
     global $thema;
-    echo '<header class="sitekop"><div class="kop-binnen">'; merk();
+    echo '<header class="sitekop"><div class="kop-binnen">'; merk(false, $thema === 'blauwdruk');
     echo '<button class="menu-toggle" type="button" aria-controls="hoofdnavigatie" aria-expanded="false">Menu</button>';
     echo '<nav class="hoofdnavigatie" id="hoofdnavigatie" aria-label="Hoofdnavigatie">'; menulinks();
     echo '<a class="contactlink" href="/' . e($thema) . '#contact">Bespreek je project</a></nav></div></header>';
