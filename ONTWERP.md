@@ -10,7 +10,7 @@ Bron: `bronmateriaal/logo-origineel.pdf`. Het bestaande logo is ongewijzigd naar
 Voor blauwe achtergronden is daarnaast `public_html/assets/img/logo-immens-op-blauw.png` toegevoegd: een transparante, lichte variant, gemaakt met de ingebouwde imagegen-tool. Deze wordt gebruikt op de blauwe achtergrond van Blauwdruk. De gebruikte prompt staat in `bronmateriaal/logo-op-blauw-prompt.txt`. Beide logo's zijn te wijzigen via de CMS-pagina Algemeen.
 Palet: diepblauw #174c85, helderblauw #73bdf2, marine #102e4d, zilver #b5b7b9, koelwit #f5f7f8 en wit #ffffff.
 
-Blauwdruk gebruikt Barlow Condensed en Manrope, een breed hoofdbeeld met een zelfstandig blauw tekstvlak, een horizontale dienstenrij en een donker projectoverzicht. De aangeleverde eigen foto's vervangen de oorspronkelijke sfeerfotografie. Er zijn geen fictieve reviews, projectlocaties of opdrachtgevers toegevoegd.
+Blauwdruk gebruikt Barlow Condensed en Manrope, een breed hoofdbeeld met een zelfstandig blauw tekstvlak, een introductie met foto, drie diensten met eigen foto’s, een blauwe offertebalk en een donker projectoverzicht. De aangeleverde eigen foto's vervangen de oorspronkelijke sfeerfotografie. Er zijn geen fictieve reviews, projectlocaties of opdrachtgevers toegevoegd.
 
 Er is geen visuele beoordeling door de agent uitgevoerd; die ligt conform het centrale AGENTS.md bij de gebruiker.
 
@@ -47,4 +47,22 @@ De foto's hebben op verzoek afgeronde hoeken van 14px op de website. Logo, knopp
 
 ## Technische verificatie
 
-`python3 tests/integration.py` voert 128 technische controles uit in een tijdelijke kopie. Het controleert Blauwdruk, de verwijderde ontwerpen en het ontbreken van de themakeuze, lokale assets, formulieropslag en -beveiliging, eerste beheeraccount, login en logout, rollen, uploads, projecten en reportages, flexibele blokken, navigatie, SEO, online/noindex, redirects, herstelversies, onderhoud en de afscherming van interne bestanden. Testaccounts en testinhoud blijven buiten het opgeleverde project. Ook PHP-lint, JSON-decode en JavaScript-syntax zijn gecontroleerd. De oorspronkelijke CMS-smoketest is geslaagd. Er is geen browser-, screenshot- of visuele controle uitgevoerd.
+`python3 tests/integration.py` voert 219 technische controles uit in een tijdelijke kopie. Het controleert Blauwdruk, het offertesysteem, de verwijderde ontwerpen en het ontbreken van de themakeuze, lokale assets, formulieropslag en -beveiliging, eerste beheeraccount, login en logout, rollen, uploads, projecten en reportages, flexibele blokken, navigatie, SEO, online/noindex, redirects, herstelversies, onderhoud en de afscherming van interne bestanden. Testaccounts en testinhoud blijven buiten het opgeleverde project. Ook PHP-lint, JSON-decode en JavaScript-syntax zijn gecontroleerd. De oorspronkelijke CMS-smoketest is geslaagd. Er is geen browser-, screenshot- of visuele controle uitgevoerd.
+
+## Offertesysteem
+
+Lokaal is een zelfstandig offerteformulier toegevoegd in de bestaande Blauwdruk-stijl. De primaire knop en de footer leiden naar `/offerte`. De beheerder gebruikt de bestaande CMS-login en het onderdeel Offertes voor prijzen, diensten, voorwaarden, bedrijfsgegevens en ontvangen offertes. Er is geen extra account of standaardwachtwoord geïntroduceerd.
+
+Offertes zijn voorlopig en worden direct als PDF uitgegeven. De berekening gebeurt in gehele centen op de server; de browser toont een overeenkomende voorvertoning. Prijzen zijn excl. btw, het eindbedrag toont btw expliciet. De oorspronkelijke zakelijke btw-verlegging wordt niet overgenomen voor consumenten. Instellingen zijn herstelbaar; klantoffertes blijven privé en staan buiten Git en herstelversies. Definitieve plaatsing op een domein volgt later en vereist PHP-hosting.
+
+De agent heeft uitsluitend technische controles uitgevoerd. De visuele beoordeling van de offertepagina, beheerpagina en PDF blijft bij de gebruiker volgens het centrale AGENTS.md.
+
+## Bedrijfspresentatie met inspiratie van Pijnappels
+
+De homepage-opbouw is geïnspireerd op https://pijnappels-stukadoors.nl/: direct contact boven de navigatie, een brede fotografische aanhef, een bedrijfsintroductie met aandachtspunten, diensten met eigen fotografie, een contactmoment tussendoor en een uitgebreide bedrijfsfooter. Het diepblauw, helderblauw, logo, Barlow/Manrope en de negen aangeleverde foto’s vormen de eigen Immens-uitwerking.
+
+De drie diensten blijven wanden, plafonds en renovatie/herstel. De twee eerste diensten leiden naar de offertecalculator; herstelwerk leidt naar het contactblok. Introductie, aandachtspunten, dienstfoto’s en offertebalk zijn geregistreerd als CMS-velden onder Homepage. Alle negen projectfoto’s blijven als afzonderlijk fotovak te openen. De opbouw schakelt op kleinere schermen naar één kolom; het bestaande mobiele menu werkt nu ook op tabletbreedte.
+
+De contactbalk, het contactblok en de footer gebruiken de contactgegevens uit Site-instellingen of Algemeen. Lege velden vallen terug op de bedrijfsgegevens bij de offerte-instellingen. De aanvullende stijlen staan in `assets/blauwdruk.css`, zodat de offertepagina en overige publieke pagina’s dezelfde navigatie en footer delen.
+
+Deze wijzigingsronde is technisch gecontroleerd, inclusief de offerteberekeningen en de statische demo. De visuele beoordeling blijft bij de gebruiker; er is geen browser- of screenshotbeoordeling van de aangepaste site uitgevoerd.

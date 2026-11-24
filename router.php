@@ -15,6 +15,7 @@ if ($file && strpos($file, realpath($root) . DIRECTORY_SEPARATOR) === 0 && is_fi
 }
 if ($path === '/beheer/' || $path === '/beheer') { require $root . '/beheer/index.php'; return true; }
 if ($path === '/') { require $root . '/index.php'; return true; }
+if ($path === '/offerte' || $path === '/offerte/') { require $root . '/offerte.php'; return true; }
 if (preg_match('~^/blauwdruk/?$~', $path)) {
     require $root . '/index.php'; return true;
 }

@@ -17,6 +17,7 @@ function versiebare_bestanden() {
         'formulieren.json'  => 'Formulierinstellingen',
         'sectie-indeling.json' => 'Pagina-indeling',
         'instellingen.json' => 'Algemene instellingen',
+        'offerte-instellingen.json' => 'Offertetarieven en voorwaarden',
         'toegang.json'      => 'Toegang',
     );
 }

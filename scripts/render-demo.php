@@ -13,7 +13,9 @@ $_SERVER['REQUEST_URI'] = '/' . $route;
 $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 $_SERVER['SERVER_NAME'] = 'localhost';
 $_SERVER['DOCUMENT_ROOT'] = $root;
-if ($route === 'privacy') {
+if ($route === 'offerte') {
+    require $root . '/offerte.php';
+} elseif ($route === 'privacy') {
     $_GET = array('p' => 'privacy');
     require $root . '/eigen-pagina.php';
 } elseif ($route === 'beheer') {

@@ -29,6 +29,7 @@ $gebruiker = $ingelogd && function_exists('huidige_gebruiker') ? huidige_gebruik
   <button class="admin-menu-toggle" type="button" aria-controls="adminMenu" aria-expanded="false" aria-label="Beheermenu openen"><span aria-hidden="true"></span></button>
   <nav class="admin-nav" id="adminMenu" aria-label="Beheermenu">
     <?php if (mag('dashboard')): ?><a href="index.php">Overzicht</a><?php endif; ?>
+    <?php if (mag('settings')): ?><a href="offertes.php">Offertes</a><?php endif; ?>
     <?php if (mag('content')): ?>
       <?php if (cms_module_aan('paginas')): ?><a href="paginas.php">Pagina&rsquo;s</a><?php endif; ?>
       <?php if (cms_module_aan('collectie')): ?><a href="collectie.php"><?= e(CMS_COLLECTIE_LABEL) ?></a><?php endif; ?>

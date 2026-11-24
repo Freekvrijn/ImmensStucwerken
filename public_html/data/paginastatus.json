@@ -6,5 +6,9 @@
     "privacy": {
         "actief": true,
         "noindex": true
+    },
+    "offerte": {
+        "actief": true,
+        "noindex": true
     }
 }

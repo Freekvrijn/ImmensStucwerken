@@ -35,17 +35,38 @@ function menulinks($vanaf = 0, $aantal = null) {
         echo '<a href="' . e($url) . '"' . (!empty($item['nieuw_venster']) ? ' target="_blank" rel="noopener noreferrer"' : '') . '>' . e($item['label'] ?? '') . '</a>';
     }
 }
+function site_contactgegevens() {
+    global $content;
+    $offerte = load_json('offerte-instellingen.json', array());
+    $bedrijf = is_array($offerte['bedrijf'] ?? null) ? $offerte['bedrijf'] : array();
+    $uit = array();
+    foreach (array('telefoon','email','adres') as $sleutel) {
+        $waarde = cms_instelling($sleutel) ?: veld($content, $sleutel);
+        $uit[$sleutel] = trim((string) ($waarde ?: ($bedrijf[$sleutel] ?? '')));
+    }
+    if (!filter_var($uit['email'], FILTER_VALIDATE_EMAIL)) { $uit['email'] = ''; }
+    return $uit;
+}
 function sitekop() {
     global $thema;
+    $contact = site_contactgegevens();
+    echo '<div class="contactbalk"><div class="breed"><span>Immens Stucwerken · Wanden &amp; plafonds</span><div>';
+    if ($contact['email'] !== '') { echo '<a href="mailto:' . e($contact['email']) . '">Stuur een e-mail</a>'; }
+    if ($contact['telefoon'] !== '') { echo '<a href="tel:' . e(preg_replace('/[^+0-9]/','',$contact['telefoon'])) . '">Bel ' . e($contact['telefoon']) . '</a>'; }
+    echo '</div></div></div>';
     echo '<header class="sitekop"><div class="kop-binnen">'; merk(false, $thema === 'blauwdruk');
     echo '<button class="menu-toggle" type="button" aria-controls="hoofdnavigatie" aria-expanded="false">Menu</button>';
     echo '<nav class="hoofdnavigatie" id="hoofdnavigatie" aria-label="Hoofdnavigatie">'; menulinks();
-    echo '<a class="contactlink" href="/#contact">Bespreek je project</a></nav></div></header>';
+    echo '<a class="contactlink" href="/offerte">Maak je offerte</a></nav></div></header>';
 }
-function diensten($compact = false) {
-    echo '<div class="diensten' . ($compact ? ' diensten-compact' : '') . '">';
+function diensten($compact = false, $metFotos = false) {
+    echo '<div class="diensten' . ($compact ? ' diensten-compact' : '') . ($metFotos ? ' diensten-met-fotos' : '') . '">';
     for ($i = 1; $i <= 3; $i++) {
-        echo '<article class="dienst"><h3 data-veld="dienst' . $i . '_titel">' . tekst('dienst' . $i . '_titel') . '</h3><p data-veld="dienst' . $i . '_tekst">' . tekst('dienst' . $i . '_tekst') . '</p></article>';
+        echo '<article class="dienst">';
+        if ($metFotos) { echo '<figure>'; foto('dienst' . $i . '_afbeelding', '', array(1=>'Eigen stucwerk bij raamopeningen',2=>'Stucwerk onder de kap met houten balken',3=>'Detail van een gestucte wand met afgeronde hoek')[$i]); echo '</figure><div class="dienst-inhoud">'; }
+        echo '<h3 data-veld="dienst' . $i . '_titel">' . tekst('dienst' . $i . '_titel') . '</h3><p data-veld="dienst' . $i . '_tekst">' . tekst('dienst' . $i . '_tekst') . '</p>';
+        if ($metFotos) { echo '<a class="tekstlink" href="' . ($i === 3 ? '/#contact' : '/offerte') . '">' . ($i === 3 ? 'Bespreek herstelwerk' : 'Bereken je offerte') . '</a></div>'; }
+        echo '</article>';
     }
     echo '</div>';
 }
@@ -109,7 +130,7 @@ function contactblok() {
     global $content, $thema, $contact_fout;
     $succes = !empty($_SESSION['contact_succes']); unset($_SESSION['contact_succes']);
     echo '<section class="contactblok" id="contact"><div class="contact-inleiding"><h2 data-veld="contact_titel">' . tekst('contact_titel') . '</h2><p data-veld="contact_intro">' . tekst('contact_intro') . '</p>';
-    $telefoon = cms_instelling('telefoon') ?: veld($content, 'telefoon'); $email = cms_instelling('email') ?: veld($content, 'email');
+    $contact = site_contactgegevens(); $telefoon = $contact['telefoon']; $email = $contact['email'];
     if ($telefoon) { echo '<a class="contact-direct" href="tel:' . e(preg_replace('/[^+0-9]/','',$telefoon)) . '">' . e($telefoon) . '</a>'; }
     if (filter_var($email, FILTER_VALIDATE_EMAIL)) { echo '<a class="contact-direct" href="mailto:' . e($email) . '">' . e($email) . '</a>'; }
     echo '<p class="ontwerpnoot">Dit is een ontwerpvoorbeeld. Verstuur nog geen echte aanvraag.</p></div><div class="formulier-vak">';
@@ -122,10 +143,17 @@ function contactblok() {
     echo '</div><label>Vertel over je project<textarea name="bericht" rows="4" maxlength="5000" required placeholder="Bijvoorbeeld: wanden en plafond in de woonkamer, circa 40 m².">' . e(!empty($contact_fout) && is_string($_POST['bericht'] ?? null) ? $_POST['bericht'] : '') . '</textarea></label><div class="honeypot" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div><div class="formulier-voet"><small>Lees hoe we omgaan met je gegevens in de <a href="/privacy">privacyverklaring</a>.</small><button class="knop" type="submit">Verstuur proefaanvraag</button></div></form></div></section>';
 }
 function sitevoet() {
-    global $thema;
-    echo '<footer class="sitevoet"><a href="/">Immens Stucwerken</a><span>Aandacht voor de afwerking.</span><div><a href="/privacy">Privacy</a>';
+    $contact = site_contactgegevens();
+    echo '<footer class="bedrijfsvoet"><div class="breed"><div class="bedrijfsvoet-grid"><div class="bedrijfsvoet-merk">'; merk(false, true);
+    echo '<p>Stucwerk dat de ruimte afmaakt.<br>Aandacht voor de afwerking.</p></div><nav aria-label="Navigatie onderaan"><h2>Immens Stucwerken</h2>';
+    menulinks();
+    echo '<a href="/offerte">Zelf je offerte maken</a></nav><div class="bedrijfsvoet-contact"><h2>Neem contact op</h2>';
+    if ($contact['telefoon'] !== '') { echo '<a class="bedrijfsvoet-telefoon" href="tel:' . e(preg_replace('/[^+0-9]/','',$contact['telefoon'])) . '">' . e($contact['telefoon']) . '</a>'; }
+    if ($contact['email'] !== '') { echo '<a href="mailto:' . e($contact['email']) . '">' . e($contact['email']) . '</a>'; }
+    if ($contact['adres'] !== '') { echo '<p>' . e($contact['adres']) . '</p>'; }
+    echo '</div></div><div class="bedrijfsvoet-onder"><small>© ' . date('Y') . ' Immens Stucwerken</small><div><a href="/privacy">Privacy</a>';
     foreach (cms_navigatie('footer') as $item) { echo '<a href="' . e('/' . ltrim($item['url'] ?? '', '/')) . '">' . e($item['label'] ?? '') . '</a>'; }
-    echo '<a href="/beheer/">Beheer</a></div></footer>';
+    echo '<a href="/beheer/">Beheer</a></div></div></div></footer>';
 }
 function documentkop($page, $titel, $omschrijving = '') {
     global $thema;
@@ -134,6 +162,8 @@ function documentkop($page, $titel, $omschrijving = '') {
     if (!empty($seo['canonical'])) { echo '<link rel="canonical" href="' . e($seo['canonical']) . '">'; }
     if (!empty($seo['og_afbeelding'])) { echo '<meta property="og:image" content="' . e($seo['og_afbeelding']) . '">'; }
     echo '<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/' . asset('assets/site.css') . '"><link rel="stylesheet" href="/' . asset('assets/tekstrijen.css') . '">';
+    echo '<link rel="stylesheet" href="/' . asset('assets/blauwdruk.css') . '">';
+    if ($page === 'offerte') { echo '<link rel="stylesheet" href="/' . asset('assets/offerte.css') . '">'; }
     if (mag('content')) { echo '<link rel="stylesheet" href="/beheer/rijk-editor.css"><link rel="stylesheet" href="/beheer/inline-editor.css">'; }
     echo '<script src="/' . asset('assets/site.js') . '" defer></script></head><body class="thema-' . e($thema) . '" data-inl-csrf="' . e($_SESSION['csrf'] ?? '') . '"><a class="skiplink" href="#inhoud">Naar de inhoud</a>';
 }

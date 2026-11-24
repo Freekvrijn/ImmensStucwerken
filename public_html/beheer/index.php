@@ -22,7 +22,7 @@ $pageTitle = 'Overzicht';
 require __DIR__ . '/_head.php';
 ?>
 <h1>Beheer-overzicht</h1>
-<p class="lead">Welkom. Dit CMS staat los klaar en kan door een LLM aan een bestaande of nieuwe PHP-site worden gekoppeld.</p>
+<p class="lead">Beheer de website, projectfoto’s en offertes van Immens Stucwerken.</p>
 
 <?php if ($onderhoudMelding): ?><p class="msg <?= !empty($onderhoudMelding['ok']) ? 'ok' : 'err' ?>"><?= e($onderhoudMelding['tekst']) ?></p><?php endif; ?>
 <?php if ($onderhoud): ?>
@@ -48,6 +48,9 @@ require __DIR__ . '/_head.php';
 
 <h2 class="dashboard-group">Website-inhoud</h2>
 <div class="cards cards--dashboard">
+  <?php if (mag('settings')): ?>
+  <a class="card card--hoofd" href="offertes.php"><h2>Offertes &amp; tarieven</h2><p>Bekijk aangemaakte offertes en wijzig prijzen, reiskosten, btw en voorwaarden.</p></a>
+  <?php endif; ?>
   <?php if (mag('content') && cms_module_aan('paginas')): ?>
   <a class="card card--hoofd" href="paginas.php"><h2>Pagina&rsquo;s</h2><p>Beheer inhoud, extra pagina&rsquo;s, zichtbaarheid en indexering voor <?= $paginaAantal ?> pagina&rsquo;s.</p></a>
   <?php endif; ?>

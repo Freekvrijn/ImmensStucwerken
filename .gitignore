@@ -21,3 +21,8 @@ public_html/data/bezoekers/*
 public_html/assets/img/uploads/*
 !public_html/assets/img/uploads/.htaccess
 !public_html/assets/img/uploads/.gitkeep
+public_html/data/offertes/*
+!public_html/data/offertes/.htaccess
+!public_html/data/offertes/.gitkeep
+public_html/data/offerte-teller.json
+public_html/data/offertelog.json

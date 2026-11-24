@@ -25,5 +25,14 @@
         "volgorde": 2,
         "id": "menu-3",
         "nieuw_venster": false
+    },
+    {
+        "label": "Over Immens",
+        "url": "#over-immens",
+        "actief": true,
+        "locatie": "hoofd",
+        "volgorde": -1,
+        "id": "menu-over-immens",
+        "nieuw_venster": false
     }
 ]

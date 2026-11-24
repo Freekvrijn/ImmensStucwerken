@@ -1,10 +1,6 @@
-public_html/.htaccess
-public_html/404.php
 public_html/_lib/site.php
 public_html/_lib/velden.php
-public_html/assets/site.css
-public_html/assets/site.js
+public_html/assets/blauwdruk.css
 public_html/data/content.json
-public_html/data/paginastatus.json
-public_html/eigen-pagina.php
-public_html/index.php
+public_html/data/navigatie.json
+public_html/themas/blauwdruk.php

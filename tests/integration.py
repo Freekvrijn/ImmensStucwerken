@@ -125,7 +125,7 @@ with tempfile.TemporaryDirectory(prefix='immens-controle-', dir='/private/tmp') 
             code, _, _ = admin.request('/beheer/onderhoudsmodus.php', {'csrf':token,'onderhoud':'uit'})
             check(code == 302 and json.loads((root/'public_html/data/onderhoud.json').read_text())['actief'] is False, 'Onderhoud uit via dashboard')
 
-            for theme in ('', 'blauwdruk', 'privacy'):
+            for theme in ('', 'blauwdruk', 'privacy', 'offerte'):
                 code, body, _ = anonymous.request('/' + theme)
                 check(code == 200 and '<html lang="nl">' in body and 'noindex,nofollow' in body, 'Publieke route en noindex: /' + theme)
                 check(not re.search(r'(?:Warning|Fatal error|Deprecated):', body), 'Geen PHP-melding: /' + theme)
@@ -217,6 +217,92 @@ with tempfile.TemporaryDirectory(prefix='immens-controle-', dir='/private/tmp') 
             check('Te veel inzendingen.' in anonymous.request('/', submission)[1], 'Formulierrate-limit werkt')
             check(all('inzendingen' not in p.name for p in (root/'public_html/data/versies').rglob('*.json')), 'Persoonsgegevens staan niet in herstelversies')
 
+            # Offertes: prijs op de server, privé-PDF, snapshots en beveiligd prijsbeheer.
+            check(anonymous.request('/beheer/offertes.php')[0] == 302, 'Offertebeheer vereist inloggen')
+            def quote_form(client):
+                code, body, _ = client.request('/offerte')
+                check(code == 200, 'Offerteformulier is bereikbaar')
+                hidden = {}
+                for field in ('csrf', 'offerte_nonce', 'revisie'):
+                    match = re.search(r'name="'+field+r'" value="([a-f0-9]+)"', body)
+                    check(bool(match), 'Offerteveld beschikbaar: '+field)
+                    hidden[field] = match[1]
+                return dict(hidden, **{'aantallen[wanden]':'44','aantallen[plafonds]':'16','pand':'onbekend','naam':'Offerte Testpersoon','email':'offerte@example.invalid','adres':'Teststraat 1','postcode':'5271 KE','plaats':'Testplaats','telefoon':'','opmerking':'Technische offertecontrole.','website':''})
+            quote = quote_form(anonymous)
+            quote_dir = root/'public_html/data/offertes'
+            for bad in ({'csrf':'ongeldig'}, {'aantallen[wanden]':'-1'}, {'aantallen[wanden]':'1e3'}, {'aantallen[wanden]':'0.001'}, {'aantallen[wanden]':'10000.01'}, {'aantallen[wanden][]':'5'}, {'aantallen[onbekend]':'10'}, {'aantallen[wanden]':'0','aantallen[plafonds]':'0'}, {'pand':'btw-verlegd'}, {'email':'ongeldig'}, {'postcode':'onbekend'}, {'website':'spam'}, {'offerte_nonce':'onbekend'}):
+                code, body, _ = anonymous.request('/offerte',dict(quote,**bad))
+                check(code == 422 and not list(quote_dir.glob('*.json')), 'Offerte weigert ongeldige invoer: '+str(list(bad)))
+            quote = quote_form(anonymous)
+            quote['totaal_cent'] = '1'  # Door de klant geposte prijzen worden nooit gebruikt.
+            code, _, headers = anonymous.request('/offerte',quote)
+            check(code == 303 and '/offerte?id=IMM-' in headers.get('Location',''), 'Offerte aangemaakt met eigen nummer')
+            quote_location = headers['Location']
+            quote_id = urllib.parse.parse_qs(urllib.parse.urlsplit(quote_location).query)['id'][0]
+            saved = json.loads((quote_dir/(quote_id+'.json')).read_text())
+            check(saved['berekening']['subtotaal_cent']==165000 and saved['berekening']['btw_cent']==34650 and saved['berekening']['totaal_cent']==199650, 'Offerte rekent 44+16 m², reiskosten en 21% btw exact, onafhankelijk van gepost totaal')
+            check('Offerte Testpersoon' in anonymous.request(quote_location)[1], 'Aanvrager kan eigen offerte bekijken')
+            outsider = Client(base)
+            pdf_url = '/offerte-pdf.php?id='+quote_id
+            check(outsider.request(quote_location)[0] == 404 and outsider.request(pdf_url)[0] == 404, 'Andere sessie kan offerte en PDF niet openen')
+            check(anonymous.request('/offerte-pdf.php?id=../../auth')[0] == 404, 'PDF-endpoint weigert padmanipulatie')
+            pdf_response = anonymous.opener.open(base+pdf_url)
+            pdf_bytes = pdf_response.read()
+            check(pdf_response.headers['Content-Type']=='application/pdf' and pdf_bytes.startswith(b'%PDF-1.4'), 'Aanvrager krijgt een echte PDF-download')
+            pdf_path = root/'controle-offerte.pdf';pdf_path.write_bytes(pdf_bytes)
+            if shutil.which('pdftotext'):
+                extracted = subprocess.check_output(['pdftotext',str(pdf_path),'-'],text=True)
+                check(all(value in extracted for value in (quote_id,'Offerte Testpersoon','1.996,50','346,50','150,00')), 'PDF bevat klant, nummer en correcte bedragen')
+            code, _, headers = anonymous.request('/offerte',quote)
+            check(code==303 and headers.get('Location')==quote_location and len(list(quote_dir.glob('*.json')))==1, 'Herhaald verzenden maakt geen dubbele offerte')
+            stale = quote_form(anonymous)
+            prices = json.loads((root/'public_html/data/offerte-instellingen.json').read_text())
+            def settings_post(config, token, revision):
+                post = {'csrf':token,'actie':'instellingen','revisie':revision,'reiskosten':'100','minimum':'0','btw_standaard':'21','woning_btw':'1','geldigheid_dagen':'30','voorwaarden':config['voorwaarden'],'actief':'1'}
+                for service in config['diensten']:
+                    prefix = 'diensten['+service['id']+']'
+                    post.update({prefix+'[naam]':service['naam'],prefix+'[eenheid]':service['eenheid'],prefix+'[prijs]':'30' if service['id']=='wanden' else '40',prefix+'[actief]':'1'})
+                for key,value in config['bedrijf'].items():post['bedrijf['+key+']']=value
+                return post
+            code, body, _ = admin.request('/beheer/offertes.php?tab=tarieven')
+            price_token = re.search(r'name="csrf" value="([a-f0-9]+)"',body)[1]
+            revision = re.search(r'name="revisie" value="([a-f0-9]+)"',body)[1]
+            new_prices = settings_post(prices,price_token,revision)
+            code, _, _ = admin.request('/beheer/offertes.php?tab=tarieven',dict(new_prices,csrf='ongeldig'))
+            check(code==422 and json.loads((root/'public_html/data/offerte-instellingen.json').read_text())==prices, 'Prijsbeheer weigert ongeldige CSRF')
+            code, _, _ = admin.request('/beheer/offertes.php?tab=tarieven',dict(new_prices,reiskosten='-1'))
+            check(code==422, 'Prijsbeheer weigert negatief tarief')
+            code, _, _ = admin.request('/beheer/offertes.php?tab=tarieven',new_prices)
+            check(code==303 and json.loads((root/'public_html/data/offerte-instellingen.json').read_text())['diensten'][0]['prijs_cent']==3000, 'Beheerder kan tarieven wijzigen')
+            check(bool(list((root/'public_html/data/versies').glob('offerte-instellingen--*.json'))), 'Prijswijziging krijgt een herstelversie')
+            check(admin.request('/beheer/offertes.php?tab=tarieven',new_prices)[0]==409, 'Prijsbeheer detecteert gelijktijdige wijziging')
+            code, body, _ = anonymous.request('/offerte',stale)
+            check(code==409 and len(list(quote_dir.glob('*.json')))==1, 'Verouderde prijsberekening vraagt controle van nieuwe tarieven')
+            check(anonymous.opener.open(base+pdf_url).read()==pdf_bytes, 'Bestaande offerte en PDF blijven gelijk na prijswijziging')
+            current = quote_form(anonymous)
+            code, _, headers = anonymous.request('/offerte',dict(current,pand='woning-oud'))
+            new_id = urllib.parse.parse_qs(urllib.parse.urlsplit(headers['Location']).query)['id'][0]
+            new_saved = json.loads((quote_dir/(new_id+'.json')).read_text())
+            check(code==303 and new_saved['berekening']['subtotaal_cent']==206000 and new_saved['berekening']['btw_percentage']==9 and new_saved['berekening']['totaal_cent']==224540, 'Nieuwe offerte gebruikt nieuwe tarieven en 9% voor opgegeven oudere woning')
+            check(admin.request(pdf_url)[0]==200 and quote_id in admin.request('/beheer/offertes.php')[1], 'Beheerder kan ontvangen offerte en PDF openen')
+            code, _, _ = admin.request('/beheer/offertes.php',{'csrf':price_token,'actie':'status','id':quote_id,'status':'in-behandeling'})
+            check(code==303 and json.loads((quote_dir/(quote_id+'.json')).read_text())['status']=='in-behandeling', 'Beheerder kan offertestatus wijzigen')
+            check(admin.request('/beheer/offertes.php',{'csrf':'ongeldig','actie':'verwijderen','id':quote_id})[0]==422 and (quote_dir/(quote_id+'.json')).exists(), 'Verwijderen vereist geldige CSRF')
+            code, _, _ = admin.request('/beheer/offertes.php',{'csrf':price_token,'actie':'verwijderen','id':quote_id})
+            check(code==303 and not (quote_dir/(quote_id+'.json')).exists() and anonymous.request(pdf_url)[0]==404, 'Offerte kan definitief verwijderd worden')
+            for i in range(3):
+                item=quote_form(anonymous)
+                check(anonymous.request('/offerte',item)[0]==303, 'Offerte binnen snelheidslimiet')
+            item=quote_form(anonymous)
+            check(anonymous.request('/offerte',item)[0]==422, 'Offertes begrensd tot vijf per uur per IP-hash')
+            expired=json.loads((quote_dir/(new_id+'.json')).read_text());expired['gemaakt_op']='2020-01-01T00:00:00+00:00';(quote_dir/(new_id+'.json')).write_text(json.dumps(expired))
+            check(anonymous.request('/offerte-pdf.php?id='+new_id)[0]==404, 'Verlopen bewaartermijn sluit PDF-toegang af')
+            admin.request('/beheer/offertes.php')
+            check(not (quote_dir/(new_id+'.json')).exists(), 'Oude offertes worden opgeschoond')
+            check(not any('offerte-' in p.name and 'offerte-instellingen' not in p.name for p in (root/'public_html/data/versies').glob('*.json')), 'Offertes met persoonsgegevens komen niet in herstelversies')
+            check(anonymous.request('/data/offerte-instellingen.json')[0]==403 and anonymous.request('/data/offertes/'+new_id+'.json')[0]==403, 'Offertedata blijft afgeschermd via HTTP')
+
+            private_id = next(path.stem for path in quote_dir.glob('*.json'))
             token = admin.token('/beheer/gebruikers.php')
             for role in ('redacteur','seo'):
                 user_password = secrets.token_urlsafe(24)
@@ -225,6 +311,7 @@ with tempfile.TemporaryDirectory(prefix='immens-controle-', dir='/private/tmp') 
                 role_token = client.token('/beheer/login.php')
                 client.request('/beheer/login.php', {'csrf':role_token,'gebruiker':'controle-'+role,'wachtwoord':user_password})
                 check(client.request('/beheer/gebruikers.php')[0] == 403, role + ' mag geen accounts beheren')
+                check(client.request('/beheer/offertes.php')[0] == 403 and client.request('/offerte-pdf.php?id='+private_id)[0] == 404, role + ' mag geen tarieven of klantoffertes beheren')
                 if role == 'seo':
                     check(client.request('/beheer/kernteksten.php')[0] == 403 and client.request('/beheer/seo.php')[0] == 200, 'SEO-rol is correct begrensd')
                 else:

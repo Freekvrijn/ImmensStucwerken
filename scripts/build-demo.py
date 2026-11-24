@@ -50,6 +50,15 @@ def transform(source, privacy=False):
         form = re.sub(r'<(input|textarea|button)\b', r'<\1 disabled', form)
         return form.replace('Verstuur proefaanvraag', 'Formulier niet actief in demo')
     source = re.sub(r'<form class="contactformulier".*?</form>', demo_form, source, flags=re.S)
+    def demo_quote(match):
+        form = re.sub(r'\smethod="[^"]*"|\saction="[^"]*"', '', match[0])
+        form = form.replace('<form ', '<form data-demo-form ', 1)
+        form = re.sub(r'<input\b[^>]*name="(?:offerte_nonce|revisie)"[^>]*>', '', form)
+        form = re.sub(r'<(?:input|textarea)\b(?=[^>]*name="(?:naam|email|telefoon|adres|postcode|plaats|opmerking)")', lambda m: m[0]+' disabled', form)
+        form = form.replace('<button class="knop" type="submit">Maak mijn offerte en PDF</button>', '<button class="knop" type="submit" disabled>PDF aanmaken niet actief in demo</button>')
+        return form
+    source = re.sub(r'<form\b(?=[^>]*class="offerte-formulier").*?</form>', demo_quote, source, flags=re.S)
+    source = source.replace('Je offerte verschijnt direct op het scherm. Er wordt geen e-mail verstuurd. Bewaar de PDF zelf.', 'In deze demo kun je een prijs berekenen. Het opslaan van gegevens en downloaden van een offerte werkt in de volledige PHP-website.')
     source = source.replace('Dit is een ontwerpvoorbeeld. Verstuur nog geen echte aanvraag.', 'Dit is een online ontwerpvoorbeeld. Het formulier is niet actief.')
     source = re.sub(r'\b(href|src)="([^"]*)"', lambda m: m[1] + '="' + html.escape(local_url(m[2]), quote=True) + '"', source)
     if re.search(r'data-inl-csrf|name="csrf"|<\?php', source):
@@ -67,7 +76,7 @@ def render(route='', theme=''):
 def write(path, contents):
     target = OUTPUT / path
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(contents)
+    target.write_text(re.sub(r'(?m)^[ \t]+$', '', contents))
     generated.append(path)
 
 
@@ -90,6 +99,7 @@ for source in sorted((SOURCE/'assets').rglob('*')):
 write('index.html', render())
 write('blauwdruk/index.html', render('blauwdruk'))
 write('privacy/index.html', render('privacy', 'blauwdruk'))
+write('offerte/index.html', render('offerte'))
 write('beheer/index.html', render('beheer'))
 write('404.html', render('404'))
 write('robots.txt', 'User-agent: *\nDisallow: /\n')
