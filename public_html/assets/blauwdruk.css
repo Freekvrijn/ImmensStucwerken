@@ -41,14 +41,14 @@
 .dienst-inhoud{display:flex;flex-direction:column;align-items:flex-start;flex:1;padding-top:24px}
 .blauwdruk-diensten .diensten-met-fotos h3{font-size:28px;line-height:1.2;margin-bottom:14px}
 .blauwdruk-diensten .diensten-met-fotos p{font-size:16px;line-height:1.85;color:#546575;margin-bottom:0}
-.diensten-actie{display:flex;justify-content:center;margin-top:32px}
+.diensten-actie{display:flex;justify-content:center;margin-top:28px;background:transparent;padding:0}
 .blauwdruk-offerteband{background:#174c85;color:#fff;padding-block:55px}
 .blauwdruk-offerteband>.breed{display:flex;justify-content:space-between;align-items:center;gap:65px}
 .blauwdruk-offerteband .vakregel{color:#bcdff8}
 .blauwdruk-offerteband h2{font-size:clamp(29px,2.8vw,39px);max-width:28ch}
 .blauwdruk-offerteband p:last-child{font-size:16px;line-height:1.8;color:#e0edf8;margin-top:16px;max-width:65ch}
-.blauwdruk-offerteband .knop{flex-shrink:0;background:#fff;color:#174c85;border-color:#fff;padding-inline:27px}
-.blauwdruk-offerteband .knop:hover{background:#e3eff8}
+.blauwdruk-offerteband .knop{flex-shrink:0;background:#102e4d;color:#fff;border-color:#628cb3;padding-inline:22px}
+.blauwdruk-offerteband .knop:hover{background:#0a2440}
 .blauwdruk-home .blauwdruk-projecten{background:#0a2440}
 .blauwdruk-projecten .vakregel{color:#94c9ef}
 .blauwdruk-home .blauwdruk-projectlijst{gap:40px 28px}
@@ -149,3 +149,8 @@
 
 /* Afgeronde actieknoppen op alle publieke pagina’s. */
 .thema-blauwdruk .knop,.thema-blauwdruk .contactlink,.thema-blauwdruk .menu-toggle,.thema-blauwdruk .dialoog-sluiten,.thema-blauwdruk .project-bekijken{border-radius:8px;text-decoration:none}
+
+/* Compacte offerteactie met een rekenmachine-icoon in de eigen blauwe kleuren. */
+.blauwdruk-home .offerteknop{width:auto;max-width:100%;gap:10px;padding:12px 20px;background:#102e4d;color:#fff;border-color:#102e4d;line-height:1.4}
+.blauwdruk-home .offerteknop:hover{background:#0a2440;border-color:#0a2440}
+.offerteknop svg{width:20px;height:20px;flex:none;fill:none;stroke:#a9d5f4;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}

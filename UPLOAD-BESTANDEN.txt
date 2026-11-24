@@ -1,3 +1,2 @@
-public_html/_lib/site.php
 public_html/assets/blauwdruk.css
 public_html/themas/blauwdruk.php

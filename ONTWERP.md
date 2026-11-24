@@ -72,3 +72,5 @@ Deze wijzigingsronde is technisch gecontroleerd, inclusief de offerteberekeninge
 Onder 700 pixels schermbreedte staan alle projectfoto’s in één horizontaal veegbare rij met een zichtbare volgende foto, een bladerhint en een focusbare galerij voor toetsenbordbediening. Alle negen foto’s behouden hun bestaande vergrootdialoog. De drie diensten gebruiken een kleine foto naast de tekst. De extra introductie- en werkwijzefoto worden op mobiel verborgen; deze beelden zijn ook als projectfoto beschikbaar. Verder zijn de hoofdafbeelding, sectie-afstanden, offertebalk en footer compacter. De lopende tekst blijft 16 pixels. De desktopindeling blijft behouden.
 
 De agent heeft de HTML, routes en bestaande integratietests technisch gecontroleerd. De beoordeling op een echte telefoon blijft conform het centrale AGENTS.md bij de gebruiker.
+
+De centrale offerteknop heeft een klein rekenmachine-icoon en een compacte donkerblauwe vormgeving. De offerteknop in de blauwe balk gebruikt dezelfde rustige stijl.
