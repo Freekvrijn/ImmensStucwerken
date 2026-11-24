@@ -65,7 +65,7 @@ function diensten($compact = false, $metFotos = false) {
         echo '<article class="dienst">';
         if ($metFotos) { echo '<figure>'; foto('dienst' . $i . '_afbeelding', '', array(1=>'Eigen stucwerk bij raamopeningen',2=>'Stucwerk onder de kap met houten balken',3=>'Detail van een gestucte wand met afgeronde hoek')[$i]); echo '</figure><div class="dienst-inhoud">'; }
         echo '<h3 data-veld="dienst' . $i . '_titel">' . tekst('dienst' . $i . '_titel') . '</h3><p data-veld="dienst' . $i . '_tekst">' . tekst('dienst' . $i . '_tekst') . '</p>';
-        if ($metFotos) { echo '<a class="knop" href="' . ($i === 3 ? '/#contact' : '/offerte') . '">' . ($i === 3 ? 'Bespreek herstelwerk' : 'Bereken je offerte') . '</a></div>'; }
+        if ($metFotos) { echo '</div>'; }
         echo '</article>';
     }
     echo '</div>';

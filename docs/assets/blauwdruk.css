@@ -40,8 +40,8 @@
 .diensten-met-fotos .dienst>figure>img{width:100%;aspect-ratio:4/3;object-fit:cover}
 .dienst-inhoud{display:flex;flex-direction:column;align-items:flex-start;flex:1;padding-top:24px}
 .blauwdruk-diensten .diensten-met-fotos h3{font-size:28px;line-height:1.2;margin-bottom:14px}
-.blauwdruk-diensten .diensten-met-fotos p{font-size:16px;line-height:1.85;color:#546575;margin-bottom:24px}
-.blauwdruk-diensten .diensten-met-fotos .knop{font-size:14px;margin-top:auto}
+.blauwdruk-diensten .diensten-met-fotos p{font-size:16px;line-height:1.85;color:#546575;margin-bottom:0}
+.diensten-actie{display:flex;justify-content:center;margin-top:32px}
 .blauwdruk-offerteband{background:#174c85;color:#fff;padding-block:55px}
 .blauwdruk-offerteband>.breed{display:flex;justify-content:space-between;align-items:center;gap:65px}
 .blauwdruk-offerteband .vakregel{color:#bcdff8}
@@ -114,8 +114,8 @@
     .diensten-met-fotos .dienst>figure>img{aspect-ratio:1/1}
     .dienst-inhoud{padding-top:0}
     .blauwdruk-diensten .diensten-met-fotos h3{font-size:24px;margin-bottom:10px}
-    .blauwdruk-diensten .diensten-met-fotos p{font-size:16px;line-height:1.65;margin-bottom:8px}
-    .blauwdruk-diensten .diensten-met-fotos .knop{min-height:44px;max-width:100%;padding:10px 14px}
+    .blauwdruk-diensten .diensten-met-fotos p{font-size:16px;line-height:1.65;margin-bottom:0}
+    .diensten-actie{margin-top:24px}
     .blauwdruk-offerteband{padding-block:30px}
     .blauwdruk-offerteband .vakregel{display:none}
     .blauwdruk-offerteband h2{font-size:29px}

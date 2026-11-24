@@ -61,7 +61,7 @@ De agent heeft uitsluitend technische controles uitgevoerd. De visuele beoordeli
 
 De homepage-opbouw is geïnspireerd op https://pijnappels-stukadoors.nl/: direct contact boven de navigatie, een brede fotografische aanhef, een bedrijfsintroductie met aandachtspunten, diensten met eigen fotografie, een contactmoment tussendoor en een uitgebreide bedrijfsfooter. Het diepblauw, helderblauw, logo, Barlow/Manrope en de negen aangeleverde foto’s vormen de eigen Immens-uitwerking.
 
-De drie diensten blijven wanden, plafonds en renovatie/herstel. De twee eerste diensten leiden naar de offertecalculator; herstelwerk leidt naar het contactblok. Introductie, aandachtspunten, dienstfoto’s en offertebalk zijn geregistreerd als CMS-velden onder Homepage. Alle negen projectfoto’s blijven als afzonderlijk fotovak te openen. De opbouw schakelt op kleinere schermen naar één kolom; het bestaande mobiele menu werkt nu ook op tabletbreedte.
+De drie diensten blijven wanden, plafonds en renovatie/herstel. Onder de drie diensten staat één centrale knop naar de offertecalculator. Introductie, aandachtspunten, dienstfoto’s en offertebalk zijn geregistreerd als CMS-velden onder Homepage. Alle negen projectfoto’s blijven als afzonderlijk fotovak te openen. De opbouw schakelt op kleinere schermen naar één kolom; het bestaande mobiele menu werkt nu ook op tabletbreedte.
 
 De contactbalk, het contactblok en de footer gebruiken de contactgegevens uit Site-instellingen of Algemeen. Lege velden vallen terug op de bedrijfsgegevens bij de offerte-instellingen. De aanvullende stijlen staan in `assets/blauwdruk.css`, zodat de offertepagina en overige publieke pagina’s dezelfde navigatie en footer delen.
 
