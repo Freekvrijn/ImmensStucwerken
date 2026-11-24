@@ -125,7 +125,7 @@ with tempfile.TemporaryDirectory(prefix='immens-controle-', dir='/private/tmp') 
             code, _, _ = admin.request('/beheer/onderhoudsmodus.php', {'csrf':token,'onderhoud':'uit'})
             check(code == 302 and json.loads((root/'public_html/data/onderhoud.json').read_text())['actief'] is False, 'Onderhoud uit via dashboard')
 
-            for theme in ('', 'atelier', 'blauwdruk', 'galerie', 'werkplaats', 'privacy'):
+            for theme in ('', 'blauwdruk', 'privacy'):
                 code, body, _ = anonymous.request('/' + theme)
                 check(code == 200 and '<html lang="nl">' in body and 'noindex,nofollow' in body, 'Publieke route en noindex: /' + theme)
                 check(not re.search(r'(?:Warning|Fatal error|Deprecated):', body), 'Geen PHP-melding: /' + theme)
@@ -134,18 +134,26 @@ with tempfile.TemporaryDirectory(prefix='immens-controle-', dir='/private/tmp') 
                 check(all(anchor in parser.ids for anchor in parser.anchors), 'Ankerbestemmingen aanwezig: /' + theme)
                 for url in parser.urls:
                     check(url.startswith('/') and anonymous.request(url)[0] == 200, 'Lokaal asset beschikbaar: ' + url.split('?')[0])
+            for removed in ('atelier', 'galerie', 'werkplaats'):
+                for path in ('/'+removed, '/'+removed+'/', '/'+removed+'/privacy', '/?thema='+removed):
+                    check(anonymous.request(path)[0] == 404, 'Vervallen ontwerp is verwijderd: '+path)
+            homepage = anonymous.request('/')[1]
+            check('thema-blauwdruk' in homepage and 'thema-menu' not in homepage and 'previewbalk' not in homepage, 'Alleen Blauwdruk, zonder themakeuze')
+            check(homepage.count('data-project=') == 9 and homepage.count('data-project-dialog=') == 9, 'Alle negen foto’s hebben een fotodialoog')
+            admin_pages = admin.request('/beheer/paginas.php')[1]
+            check(not any(name in admin_pages for name in ('Atelier', 'Galerie', 'Werkplaats')), 'Vervallen ontwerpen zijn ook uit het CMS verwijderd')
             check(anonymous.request('/bestaat-niet')[0] == 404, 'Onbekende pagina geeft 404')
             check(anonymous.request('/?thema[]=atelier')[0] == 404, 'Ongeldige themainvoer geeft 404')
-            for path in ('/data/content.json','/_lib/config.php','/data/geoip/ip2location-DB1LITEBINIPV6.bin','/.htaccess','/themas/atelier.php'):
+            for path in ('/data/content.json','/_lib/config.php','/data/geoip/ip2location-DB1LITEBINIPV6.bin','/.htaccess','/themas/blauwdruk.php'):
                 check(anonymous.request(path)[0] == 403, 'Gevoelige route geblokkeerd: ' + path)
             check('ip2location.com' in anonymous.request('/privacy')[1], 'Verplichte lokale GeoIP-bronvermelding aanwezig')
 
             for path in ('paginas.php','kernteksten.php','collectie.php','navigatie.php','seo.php','media.php','gebruikers.php','versies.php','formulieren.php','toegang.php','geoip.php'):
                 code, body, _ = admin.request('/beheer/' + path)
                 check(code == 200 and not re.search(r'(?:Warning|Fatal error|Deprecated):', body), 'Beheerscherm technisch geldig: ' + path)
-            token = admin.token('/beheer/kernteksten.php?pagina=atelier')
-            admin.request('/beheer/kernteksten.php?pagina=atelier', {'csrf':token,'_pagina':'atelier','atelier_titel':'Technische controle van de titel'})
-            check('Technische controle van de titel' in anonymous.request('/atelier')[1], 'Pagina-inhoud wordt publiek bijgewerkt')
+            token = admin.token('/beheer/kernteksten.php?pagina=home')
+            admin.request('/beheer/kernteksten.php?pagina=home', {'csrf':token,'_pagina':'home','blauwdruk_titel':'Technische controle van de titel'})
+            check('Technische controle van de titel' in anonymous.request('/')[1], 'Pagina-inhoud wordt publiek bijgewerkt')
             check(any((root/'public_html/data/versies').rglob('*.json')), 'Automatische herstelversie gemaakt')
 
             token = admin.token('/beheer/media.php')
@@ -155,7 +163,7 @@ with tempfile.TemporaryDirectory(prefix='immens-controle-', dir='/private/tmp') 
 
             token = admin.token('/beheer/collectie.php?actie=nieuw')
             admin.request('/beheer/collectie.php', {'csrf':token,'actie':'opslaan','titel':'Controleproject','slug':'controle','categorie':'Stucwerk','datum':'2026-11-12','samenvatting':'Projectomschrijving voor de integratietest.','tekst':'<p>Extra projectinformatie.</p>','actief':'1'}, {'afbeelding_upload':('project.jpg','image/jpeg',uploaded.read_bytes())})
-            for theme in ('atelier','blauwdruk','galerie','werkplaats'):
+            for theme in ('','blauwdruk'):
                 body = anonymous.request('/'+theme)[1]
                 check('Controleproject' in body and 'Extra projectinformatie' in body and 'data-project="voorbeeld-' not in body, 'Project vervangt voorbeeldvakken: ' + theme)
 
@@ -170,7 +178,7 @@ with tempfile.TemporaryDirectory(prefix='immens-controle-', dir='/private/tmp') 
                 admin.request('/beheer/paginas.php', {'csrf':token,'actie':'online','pagina':'eigen:project-controle'})
             body = anonymous.request('/project-controle')[1]
             check('Reportage-inhoud.' in body and '<script>alert' not in body, 'Extra pagina en HTML-filter werken')
-            check('/project-controle?thema=galerie' in anonymous.request('/galerie')[1], 'Project linkt naar eigen fotoreportage')
+            check('/project-controle' in anonymous.request('/')[1], 'Project linkt naar eigen fotoreportage')
 
             row_revision = hashlib.sha256(b'[]').hexdigest()
             code, body, _ = admin.request('/beheer/rij-opslaan-ajax.php', {'csrf':token,'zone':'eigen-project-controle','actie':'opslaan','revisie':row_revision,'id':'','indeling':'tekst','achtergrond':'paper','titel':'Fotoreportage aanvulling','html':'<p>Een flexibel inhoudsblok.</p>','na':'','knop_tekst':'','knop_url':''})
@@ -179,34 +187,34 @@ with tempfile.TemporaryDirectory(prefix='immens-controle-', dir='/private/tmp') 
 
             token = admin.token('/beheer/navigatie.php')
             admin.request('/beheer/navigatie.php', {'csrf':token,'actie':'opslaan','label':'Controle-link','url':'project-controle','locatie':'hoofd','actief':'1'})
-            check(all('Controle-link' in anonymous.request('/'+t)[1] for t in ('atelier','blauwdruk','galerie','werkplaats')), 'CMS-navigatie werkt in alle ontwerpen')
-            token = admin.token('/beheer/seo.php?pagina=atelier')
-            admin.request('/beheer/seo.php?pagina=atelier', {'csrf':token,'pagina':'atelier','titel':'Technische SEO-titel','omschrijving':'Een testomschrijving.'})
-            check('<title>Technische SEO-titel</title>' in anonymous.request('/atelier')[1], 'SEO gekoppeld aan de publieke head')
-            admin.request('/beheer/paginas.php', {'csrf':token,'actie':'online','pagina':'atelier'})
-            check(anonymous.request('/atelier')[0] == 404, 'Verborgen vaste pagina is niet publiek bereikbaar')
-            admin.request('/beheer/paginas.php', {'csrf':token,'actie':'online','pagina':'atelier'})
-            admin.request('/beheer/redirects.php', {'csrf':token,'actie':'opslaan','van':'oud-project','naar':'/galerie','code':'301','actief':'1'})
+            check(all('Controle-link' in anonymous.request('/'+t)[1] for t in ('','blauwdruk')), 'CMS-navigatie werkt op de homepage en Blauwdruk-alias')
+            token = admin.token('/beheer/seo.php?pagina=home')
+            admin.request('/beheer/seo.php?pagina=home', {'csrf':token,'pagina':'home','titel':'Technische SEO-titel','omschrijving':'Een testomschrijving.'})
+            check('<title>Technische SEO-titel</title>' in anonymous.request('/')[1], 'SEO gekoppeld aan de publieke head')
+            admin.request('/beheer/paginas.php', {'csrf':token,'actie':'online','pagina':'privacy'})
+            check(anonymous.request('/privacy')[0] == 404, 'Verborgen vaste pagina is niet publiek bereikbaar')
+            admin.request('/beheer/paginas.php', {'csrf':token,'actie':'online','pagina':'privacy'})
+            admin.request('/beheer/redirects.php', {'csrf':token,'actie':'opslaan','van':'oud-project','naar':'/blauwdruk','code':'301','actief':'1'})
             code, _, headers = anonymous.request('/oud-project')
-            check(code == 301 and headers.get('Location') == '/galerie', 'CMS-redirect werkt')
+            check(code == 301 and headers.get('Location') == '/blauwdruk', 'CMS-redirect werkt')
 
-            token = anonymous.token('/atelier')
+            token = anonymous.token('/')
             submission = {'csrf':token,'formulier':'contact','naam':'Testpersoon','email':'controle@example.invalid','plaats':'Testplaats','bericht':'Een technische proefaanvraag.','website':''}
-            code, body, _ = anonymous.request('/atelier', dict(submission, csrf='ongeldig'))
+            code, body, _ = anonymous.request('/', dict(submission, csrf='ongeldig'))
             check('Je sessie is verlopen' in body and json.loads((root/'public_html/data/inzendingen.json').read_text()) == [], 'Formulier weigert ongeldige CSRF')
-            code, body, _ = anonymous.request('/atelier', dict(submission, email='ongeldig'))
+            code, body, _ = anonymous.request('/', dict(submission, email='ongeldig'))
             check('een geldig e-mailadres' in body, 'Formuliervalidatie controleert e-mail')
-            code, body, headers = anonymous.request('/atelier', submission)
+            code, body, headers = anonymous.request('/', submission)
             stored = json.loads((root/'public_html/data/inzendingen.json').read_text())
-            check(code == 303 and len(stored) == 1 and headers.get('Location') == '/atelier#contact', 'Formulieropslag en redirect na verzenden')
-            body = anonymous.request('/atelier')[1]
+            check(code == 303 and len(stored) == 1 and headers.get('Location') == '/#contact', 'Formulieropslag en redirect na verzenden')
+            body = anonymous.request('/')[1]
             check('Je proefaanvraag is opgeslagen.' in body, 'Succesmelding alleen na opslag')
             check(len(json.loads((root/'public_html/data/inzendingen.json').read_text())) == 1, 'Vernieuwen maakt geen dubbele inzending')
-            code, body, _ = anonymous.request('/atelier', dict(submission, website='spam'))
+            code, body, _ = anonymous.request('/', dict(submission, website='spam'))
             check('Ongeldige inzending.' in body, 'Honeypot werkt')
             for _ in range(4):
-                anonymous.request('/atelier', submission)
-            check('Te veel inzendingen.' in anonymous.request('/atelier', submission)[1], 'Formulierrate-limit werkt')
+                anonymous.request('/', submission)
+            check('Te veel inzendingen.' in anonymous.request('/', submission)[1], 'Formulierrate-limit werkt')
             check(all('inzendingen' not in p.name for p in (root/'public_html/data/versies').rglob('*.json')), 'Persoonsgegevens staan niet in herstelversies')
 
             token = admin.token('/beheer/gebruikers.php')

@@ -1,0 +1,7 @@
+Verwijder deze vervallen templates bij handmatige upload naar bestaande PHP-hosting.
+Het uploadarchief overschrijft bestanden, maar verwijdert deze oude bestanden niet.
+
+public_html/themas/atelier.php
+public_html/themas/galerie.php
+public_html/themas/keuze.php
+public_html/themas/werkplaats.php

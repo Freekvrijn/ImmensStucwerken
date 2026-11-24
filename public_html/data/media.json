@@ -1,2 +1,38 @@
-{}
-
+{
+    "assets/img/projecten/wand-met-raamopeningen.jpg": {
+        "alt": "Gestucte wand met diepe raamopeningen en een onafgewerkt plafond.",
+        "titel": "Wand met raamopeningen"
+    },
+    "assets/img/projecten/raamnissen-in-de-gang.jpg": {
+        "alt": "Een lange wand met meerdere gestucte raamopeningen in een ruimte in aanbouw.",
+        "titel": "Raamnissen in de gang"
+    },
+    "assets/img/projecten/afwerking-rond-het-raam.jpg": {
+        "alt": "Stucwerk in de hoek van een ruimte en rondom een hoog raam.",
+        "titel": "Afwerking rond het raam"
+    },
+    "assets/img/projecten/wand-onder-de-balken.jpg": {
+        "alt": "Gestucte wand onder een schuin dak met zichtbare houten balken.",
+        "titel": "Wand onder de balken"
+    },
+    "assets/img/projecten/stucwerk-en-houten-gebint.jpg": {
+        "alt": "Witte wandafwerking tussen de houten balken van een dakconstructie.",
+        "titel": "Stucwerk en houten gebint"
+    },
+    "assets/img/projecten/scheidingswand-met-nis.jpg": {
+        "alt": "Een gestucte scheidingswand met een brede nis en zicht op de aangrenzende ruimte.",
+        "titel": "Scheidingswand met nis"
+    },
+    "assets/img/projecten/doorgang-in-de-wand.jpg": {
+        "alt": "Stucwerk rondom een brede doorgang, met afgeronde aansluitingen aan de bovenzijde.",
+        "titel": "Doorgang in de wand"
+    },
+    "assets/img/projecten/ronde-hoek-en-wandnis.jpg": {
+        "alt": "Een afgeronde wandhoek naast een rechthoekige nis in een ruimte in aanbouw.",
+        "titel": "Ronde hoek en wandnis"
+    },
+    "assets/img/projecten/raam-onder-de-kap.jpg": {
+        "alt": "Stucwerk rondom een raam onder het schuine dak, met afgeplakte aansluitingen.",
+        "titel": "Raam onder de kap"
+    }
+}

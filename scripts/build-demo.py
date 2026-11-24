@@ -9,13 +9,12 @@ import re
 import shutil
 import subprocess
 import sys
-from urllib.parse import parse_qs, urlsplit, urlunsplit
+from urllib.parse import urlsplit, urlunsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'public_html'
 OUTPUT = ROOT / 'docs'
 BASE = '/ImmensStucwerken/'
-THEMES = ('atelier', 'blauwdruk', 'galerie', 'werkplaats')
 generated = []
 
 
@@ -27,8 +26,6 @@ def local_url(value):
     path = url.path.strip('/')
     query = url.query
     if path == 'privacy':
-        theme = parse_qs(query).get('thema', ['atelier'])[0]
-        path = (theme if theme in THEMES else 'atelier') + '/privacy'
         query = ''
     source = SOURCE / path
     if source.is_file():
@@ -44,7 +41,7 @@ def transform(source, privacy=False):
     source = re.sub(r'\sdata-veld(?:-afbeelding|-link)?="[^"]*"', '', source)
     source = re.sub(r'<input\b[^>]*name="csrf"[^>]*>', '', source)
     if privacy:
-        text = '<div class="eigen-inhoud"><p>Deze online demo laat vier ontwerpen voor Immens Stucwerken zien. Het contactformulier en het beheer zijn niet actief. Er worden geen formuliergegevens opgeslagen en deze demo gebruikt geen CMS-sessiecookie of bezoekersstatistieken.</p><p>Afbeeldingen en lettertypen worden vanuit dezelfde website geladen. De site wordt aangeboden via GitHub Pages. GitHub kan technische toegangsgegevens verwerken volgens de <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacyverklaring van GitHub</a>.</p></div>'
+        text = '<div class="eigen-inhoud"><p>Deze online demo toont Immens Stucwerken in het gekozen ontwerp Blauwdruk. Het contactformulier en het beheer zijn niet actief. Er worden geen formuliergegevens opgeslagen en deze demo gebruikt geen CMS-sessiecookie of bezoekersstatistieken.</p><p>Afbeeldingen en lettertypen worden vanuit dezelfde website geladen. De site wordt aangeboden via GitHub Pages. GitHub kan technische toegangsgegevens verwerken volgens de <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacyverklaring van GitHub</a>.</p></div>'
         source = re.sub(r'<div class="eigen-inhoud">.*?</div>', lambda _: text, source, flags=re.S)
     def demo_form(match):
         form = match[0]
@@ -75,6 +72,10 @@ def write(path, contents):
 
 
 OUTPUT.mkdir(exist_ok=True)
+# Verwijder exports van de vervallen ontwerpvarianten en oude privacykopieën.
+for obsolete in ('atelier', 'galerie', 'werkplaats', 'blauwdruk/privacy'):
+    if (OUTPUT/obsolete).is_dir():
+        shutil.rmtree(OUTPUT/obsolete)
 # Assets: alleen publieke CSS/JS, lettertypen en beelden. Nooit PHP, JSON-data of beheer.
 for source in sorted((SOURCE/'assets').rglob('*')):
     if not source.is_file() or source.name.startswith('.') or 'uploads' in source.relative_to(SOURCE).parts:
@@ -87,10 +88,8 @@ for source in sorted((SOURCE/'assets').rglob('*')):
     shutil.copyfile(source, target)
     generated.append(relative)
 write('index.html', render())
-for theme in THEMES:
-    write(theme+'/index.html', render(theme))
-    write(theme+'/privacy/index.html', render('privacy', theme))
-write('privacy/index.html', render('privacy', 'atelier'))
+write('blauwdruk/index.html', render('blauwdruk'))
+write('privacy/index.html', render('privacy', 'blauwdruk'))
 write('beheer/index.html', render('beheer'))
 write('404.html', render('404'))
 write('robots.txt', 'User-agent: *\nDisallow: /\n')

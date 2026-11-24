@@ -3,18 +3,6 @@ require_once __DIR__ . '/public.php';
 require_once __DIR__ . '/inline_editor.php';
 sessie_boot_publiek();
 
-function ontwerpen() {
-    return array(
-        'atelier' => array('naam' => 'Atelier', 'karakter' => 'Licht & architectonisch', 'tekst' => 'Veel wit, een heldere vlakverdeling en aandacht voor de aansluiting tussen tekst en fotografie.'),
-        'blauwdruk' => array('naam' => 'Blauwdruk', 'karakter' => 'Diepblauw & uitgesproken', 'tekst' => 'Een ruimtelijk interieurbeeld, stevige letters en het diepblauw van het logo als dragende kleur.'),
-        'galerie' => array('naam' => 'Galerie', 'karakter' => 'Verfijnd & beeldgericht', 'tekst' => 'Een rustige aanhef, ruime fotografie en projecten die als een interieurreportage worden verteld.'),
-        'werkplaats' => array('naam' => 'Werkplaats', 'karakter' => 'Direct & functioneel', 'tekst' => 'Een vaste zijbalk, compacte teksten en een praktische combinatie van vakwerk en projectbeelden.'),
-    );
-}
-function thema_voor() {
-    $value = $_GET['thema'] ?? '';
-    return is_string($value) && isset(ontwerpen()[$value]) ? $value : '';
-}
 function tekst($sleutel) { global $content; return veld_html($content, $sleutel); }
 function fotopad($pad) {
     return is_string($pad) && preg_match('~^/?assets/img/[a-zA-Z0-9_./-]+\.(?:jpg|jpeg|png|webp|gif)$~', $pad) && strpos($pad, '..') === false ? '/' . ltrim($pad, '/') : '';
@@ -34,7 +22,7 @@ function sfeerbijschrift($veld = 'home_afbeelding') {
 function merk($groot = false, $opBlauw = false) {
     global $content, $thema;
     $logo = $opBlauw ? veld($content, 'logo_op_blauw', 'assets/img/logo-immens-op-blauw.png') : veld($content, 'logo');
-    echo '<a class="merk' . ($groot ? ' merk-groot' : '') . ($opBlauw ? ' merk-op-blauw' : '') . '" href="/' . e($thema) . '" aria-label="Immens Stucwerken, naar boven">';
+    echo '<a class="merk' . ($groot ? ' merk-groot' : '') . ($opBlauw ? ' merk-op-blauw' : '') . '" href="/" aria-label="Immens Stucwerken, naar boven">';
     echo '<img src="' . e(fotopad($logo)) . '" width="1600" height="1067" alt="Immens Stucwerken">';
     echo '</a>';
 }
@@ -42,25 +30,17 @@ function menulinks($vanaf = 0, $aantal = null) {
     global $thema;
     foreach (array_slice(cms_navigatie('hoofd'), $vanaf, $aantal) as $item) {
         $url = $item['url'] ?? '';
-        if (strpos($url, '#') === 0) { $url = '/' . $thema . $url; }
+        if (strpos($url, '#') === 0) { $url = '/' . $url; }
         elseif ($url !== '' && !preg_match('~^(?:https?://|/|mailto:|tel:)~i', $url)) { $url = '/' . $url; }
         echo '<a href="' . e($url) . '"' . (!empty($item['nieuw_venster']) ? ' target="_blank" rel="noopener noreferrer"' : '') . '>' . e($item['label'] ?? '') . '</a>';
     }
-}
-function previewbalk() {
-    global $thema;
-    echo '<aside class="previewbalk" aria-label="Ontwerpen vergelijken"><a class="preview-overzicht" href="/">Alle ontwerpen</a><details class="thema-menu"><summary>Thema’s <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><nav class="thema-keuzes" aria-label="Kies een thema">';
-    foreach (ontwerpen() as $key => $ontwerp) {
-        echo '<a href="/' . e($key) . '"' . ($thema === $key ? ' aria-current="page"' : '') . '>' . e($ontwerp['naam']) . '</a>';
-    }
-    echo '</nav></details></aside>';
 }
 function sitekop() {
     global $thema;
     echo '<header class="sitekop"><div class="kop-binnen">'; merk(false, $thema === 'blauwdruk');
     echo '<button class="menu-toggle" type="button" aria-controls="hoofdnavigatie" aria-expanded="false">Menu</button>';
     echo '<nav class="hoofdnavigatie" id="hoofdnavigatie" aria-label="Hoofdnavigatie">'; menulinks();
-    echo '<a class="contactlink" href="/' . e($thema) . '#contact">Bespreek je project</a></nav></div></header>';
+    echo '<a class="contactlink" href="/#contact">Bespreek je project</a></nav></div></header>';
 }
 function diensten($compact = false) {
     echo '<div class="diensten' . ($compact ? ' diensten-compact' : '') . '">';
@@ -80,7 +60,7 @@ function projectkaart($project, $klasse = '') {
     global $thema;
     $detail = !empty($project['slug']) ? cms_eigen_pagina('project-' . $project['slug']) : null;
     echo '<article class="project ' . e($klasse) . '">';
-    if ($detail) { echo '<a class="project-open" href="/project-' . e($project['slug']) . '?thema=' . e($thema) . '">'; }
+    if ($detail) { echo '<a class="project-open" href="/project-' . e($project['slug']) . '">'; }
     else { echo '<button class="project-open" type="button" data-project="' . e($project['id']) . '" aria-haspopup="dialog">'; }
     $src = fotopad($project['afbeelding'] ?? '');
     echo '<div class="project-beeld">';
@@ -121,7 +101,7 @@ function contact_verwerken() {
     }
     if ($fout === '') {
         $_SESSION['contact_succes'] = true;
-        header('Location: /' . $thema . '#contact', true, 303); exit;
+        header('Location: /#contact', true, 303); exit;
     }
     $GLOBALS['contact_fout'] = $fout;
 }
@@ -135,15 +115,15 @@ function contactblok() {
     echo '<p class="ontwerpnoot">Dit is een ontwerpvoorbeeld. Verstuur nog geen echte aanvraag.</p></div><div class="formulier-vak">';
     if ($succes) { echo '<p class="formulier-melding" role="status">Je proefaanvraag is opgeslagen. In deze ontwerpversie wordt geen e-mail verstuurd.</p>'; }
     if (!empty($contact_fout)) { echo '<p class="formulier-fout" role="alert">' . e($contact_fout) . '</p>'; }
-    echo '<form class="contactformulier" method="post" action="/' . e($thema) . '#contact">' . csrf_field() . '<input type="hidden" name="formulier" value="contact"><div class="formulier-rij">';
+    echo '<form class="contactformulier" method="post" action="/#contact">' . csrf_field() . '<input type="hidden" name="formulier" value="contact"><div class="formulier-rij">';
     foreach (array('naam'=>array('Je naam','text','name',150),'email'=>array('E-mailadres','email','email',254),'plaats'=>array('Plaats (optioneel)','text','address-level2',150)) as $key=>$def) {
         echo '<label>' . e($def[0]) . '<input type="' . e($def[1]) . '" name="' . e($key) . '" autocomplete="' . e($def[2]) . '" maxlength="' . $def[3] . '"' . ($key !== 'plaats' ? ' required' : '') . ' value="' . e(!empty($contact_fout) && is_string($_POST[$key] ?? null) ? $_POST[$key] : '') . '"></label>';
     }
-    echo '</div><label>Vertel over je project<textarea name="bericht" rows="4" maxlength="5000" required placeholder="Bijvoorbeeld: wanden en plafond in de woonkamer, circa 40 m².">' . e(!empty($contact_fout) && is_string($_POST['bericht'] ?? null) ? $_POST['bericht'] : '') . '</textarea></label><div class="honeypot" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div><div class="formulier-voet"><small>Lees hoe we omgaan met je gegevens in de <a href="/privacy?thema=' . e($thema) . '">privacyverklaring</a>.</small><button class="knop" type="submit">Verstuur proefaanvraag</button></div></form></div></section>';
+    echo '</div><label>Vertel over je project<textarea name="bericht" rows="4" maxlength="5000" required placeholder="Bijvoorbeeld: wanden en plafond in de woonkamer, circa 40 m².">' . e(!empty($contact_fout) && is_string($_POST['bericht'] ?? null) ? $_POST['bericht'] : '') . '</textarea></label><div class="honeypot" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div><div class="formulier-voet"><small>Lees hoe we omgaan met je gegevens in de <a href="/privacy">privacyverklaring</a>.</small><button class="knop" type="submit">Verstuur proefaanvraag</button></div></form></div></section>';
 }
 function sitevoet() {
     global $thema;
-    echo '<footer class="sitevoet"><a href="/' . e($thema) . '">Immens Stucwerken</a><span>Aandacht voor de afwerking.</span><div><a href="/privacy?thema=' . e($thema) . '">Privacy</a>';
+    echo '<footer class="sitevoet"><a href="/">Immens Stucwerken</a><span>Aandacht voor de afwerking.</span><div><a href="/privacy">Privacy</a>';
     foreach (cms_navigatie('footer') as $item) { echo '<a href="' . e('/' . ltrim($item['url'] ?? '', '/')) . '">' . e($item['label'] ?? '') . '</a>'; }
     echo '<a href="/beheer/">Beheer</a></div></footer>';
 }
@@ -155,7 +135,7 @@ function documentkop($page, $titel, $omschrijving = '') {
     if (!empty($seo['og_afbeelding'])) { echo '<meta property="og:image" content="' . e($seo['og_afbeelding']) . '">'; }
     echo '<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/' . asset('assets/site.css') . '"><link rel="stylesheet" href="/' . asset('assets/tekstrijen.css') . '">';
     if (mag('content')) { echo '<link rel="stylesheet" href="/beheer/rijk-editor.css"><link rel="stylesheet" href="/beheer/inline-editor.css">'; }
-    echo '<script src="/' . asset('assets/site.js') . '" defer></script></head><body class="thema-' . e($thema ?: 'keuze') . '" data-inl-csrf="' . e($_SESSION['csrf'] ?? '') . '"><a class="skiplink" href="#inhoud">Naar de inhoud</a>';
+    echo '<script src="/' . asset('assets/site.js') . '" defer></script></head><body class="thema-' . e($thema) . '" data-inl-csrf="' . e($_SESSION['csrf'] ?? '') . '"><a class="skiplink" href="#inhoud">Naar de inhoud</a>';
 }
 function documentslot() {
     if (mag('content')) { require __DIR__ . '/inline-fragment.php'; echo '<script src="/beheer/inline-editor.js" defer></script>'; }

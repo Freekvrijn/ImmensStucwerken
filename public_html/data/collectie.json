@@ -1,2 +1,101 @@
-[]
-
+[
+    {
+        "id": "foto-wand-met-raamopeningen",
+        "titel": "Wand met raamopeningen",
+        "slug": "wand-met-raamopeningen",
+        "categorie": "Wandafwerking",
+        "datum": "",
+        "samenvatting": "Gestucte wand met diepe raamopeningen en een onafgewerkt plafond.",
+        "tekst": "",
+        "afbeelding": "assets/img/projecten/wand-met-raamopeningen.jpg",
+        "actief": true
+    },
+    {
+        "id": "foto-raamnissen-in-de-gang",
+        "titel": "Raamnissen in de gang",
+        "slug": "raamnissen-in-de-gang",
+        "categorie": "Wandafwerking",
+        "datum": "",
+        "samenvatting": "Een lange wand met meerdere gestucte raamopeningen in een ruimte in aanbouw.",
+        "tekst": "",
+        "afbeelding": "assets/img/projecten/raamnissen-in-de-gang.jpg",
+        "actief": true
+    },
+    {
+        "id": "foto-afwerking-rond-het-raam",
+        "titel": "Afwerking rond het raam",
+        "slug": "afwerking-rond-het-raam",
+        "categorie": "Raamdetails",
+        "datum": "",
+        "samenvatting": "Stucwerk in de hoek van een ruimte en rondom een hoog raam.",
+        "tekst": "",
+        "afbeelding": "assets/img/projecten/afwerking-rond-het-raam.jpg",
+        "actief": true
+    },
+    {
+        "id": "foto-wand-onder-de-balken",
+        "titel": "Wand onder de balken",
+        "slug": "wand-onder-de-balken",
+        "categorie": "Stucwerk onder de kap",
+        "datum": "",
+        "samenvatting": "Gestucte wand onder een schuin dak met zichtbare houten balken.",
+        "tekst": "",
+        "afbeelding": "assets/img/projecten/wand-onder-de-balken.jpg",
+        "actief": true
+    },
+    {
+        "id": "foto-stucwerk-en-houten-gebint",
+        "titel": "Stucwerk en houten gebint",
+        "slug": "stucwerk-en-houten-gebint",
+        "categorie": "Stucwerk onder de kap",
+        "datum": "",
+        "samenvatting": "Witte wandafwerking tussen de houten balken van een dakconstructie.",
+        "tekst": "",
+        "afbeelding": "assets/img/projecten/stucwerk-en-houten-gebint.jpg",
+        "actief": true
+    },
+    {
+        "id": "foto-scheidingswand-met-nis",
+        "titel": "Scheidingswand met nis",
+        "slug": "scheidingswand-met-nis",
+        "categorie": "Wanden en nissen",
+        "datum": "",
+        "samenvatting": "Een gestucte scheidingswand met een brede nis en zicht op de aangrenzende ruimte.",
+        "tekst": "",
+        "afbeelding": "assets/img/projecten/scheidingswand-met-nis.jpg",
+        "actief": true
+    },
+    {
+        "id": "foto-doorgang-in-de-wand",
+        "titel": "Doorgang in de wand",
+        "slug": "doorgang-in-de-wand",
+        "categorie": "Wanden en doorgangen",
+        "datum": "",
+        "samenvatting": "Stucwerk rondom een brede doorgang, met afgeronde aansluitingen aan de bovenzijde.",
+        "tekst": "",
+        "afbeelding": "assets/img/projecten/doorgang-in-de-wand.jpg",
+        "actief": true
+    },
+    {
+        "id": "foto-ronde-hoek-en-wandnis",
+        "titel": "Ronde hoek en wandnis",
+        "slug": "ronde-hoek-en-wandnis",
+        "categorie": "Afwerking in detail",
+        "datum": "",
+        "samenvatting": "Een afgeronde wandhoek naast een rechthoekige nis in een ruimte in aanbouw.",
+        "tekst": "",
+        "afbeelding": "assets/img/projecten/ronde-hoek-en-wandnis.jpg",
+        "actief": true
+    },
+    {
+        "id": "foto-raam-onder-de-kap",
+        "titel": "Raam onder de kap",
+        "slug": "raam-onder-de-kap",
+        "categorie": "Raamdetails",
+        "datum": "",
+        "samenvatting": "Stucwerk rondom een raam onder het schuine dak, met afgeplakte aansluitingen.",
+        "tekst": "",
+        "afbeelding": "assets/img/projecten/raam-onder-de-kap.jpg",
+        "actief": true
+    }
+]

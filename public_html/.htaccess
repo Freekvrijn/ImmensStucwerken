@@ -7,7 +7,9 @@ DirectoryIndex index.php
 </IfModule>
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^(atelier|blauwdruk|galerie|werkplaats)/?$ index.php?thema=$1 [L,QSA]
+  RewriteRule ^themas(?:/|$) - [F,L]
+  RewriteRule ^(atelier|galerie|werkplaats)(?:/.*)?$ - [R=404,L]
+  RewriteRule ^blauwdruk/?$ index.php [L,QSA]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^([a-z0-9]+(?:-[a-z0-9]+)*)/?$ eigen-pagina.php?p=$1 [L,QSA]

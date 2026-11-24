@@ -15,8 +15,8 @@ if ($file && strpos($file, realpath($root) . DIRECTORY_SEPARATOR) === 0 && is_fi
 }
 if ($path === '/beheer/' || $path === '/beheer') { require $root . '/beheer/index.php'; return true; }
 if ($path === '/') { require $root . '/index.php'; return true; }
-if (preg_match('~^/(atelier|blauwdruk|galerie|werkplaats)/?$~', $path, $match)) {
-    $_GET['thema'] = $match[1]; require $root . '/index.php'; return true;
+if (preg_match('~^/blauwdruk/?$~', $path)) {
+    require $root . '/index.php'; return true;
 }
 if (preg_match('~^/([a-z0-9]+(?:-[a-z0-9]+)*)/?$~', $path, $match)) {
     $_GET['p'] = $match[1]; require $root . '/eigen-pagina.php'; return true;
