@@ -6,6 +6,8 @@ Alle negen aangeleverde projectfoto's staan in de CMS-collectie en zijn afzonder
 
 De homepage heeft een directe contactbalk, een bedrijfsintroductie, drie diensten met eigen foto’s, een offertebalk en een uitgebreide footer, met inspiratie uit de opbouw van [Pijnappels](https://pijnappels-stukadoors.nl/). Alle nieuwe introductieteksten en dienstfoto’s zijn via het CMS aanpasbaar.
 
+Op mobiel is de homepage compacter: de projectfoto’s zijn horizontaal te bekijken, de diensten tonen een kleine foto naast de tekst en herhaalde grote foto’s zijn verborgen. Alle foto’s blijven te openen.
+
 Online demo: https://freekvrijn.github.io/ImmensStucwerken/
 
 ## Lokaal offertesysteem

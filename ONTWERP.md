@@ -2,7 +2,7 @@
 
 De website gaat volledig verder met Blauwdruk. De overige ontwerpen, de keuzeoverzichtspagina en het themamenu zijn verwijderd uit broncode, CMS en statische demo.
 
-Blauwdruk is gekozen als startpagina. De negen aangeleverde foto's uit Downloads zijn met behoud van de oorspronkelijke beeldbestanden opgenomen onder `public_html/assets/img/projecten/`, met beschrijvende bestandsnamen en metadata in het CMS. Iedere foto staat als afzonderlijk fotovak in de projectcollectie. Er zijn geen projectlocaties, opdrachtgevers of uitvoeringsdatums ingevuld. Het Blauwdruk-overzicht gebruikt drie kolommen op brede schermen, twee op middelgrote schermen en één op mobiel. De bestaande dialoog toont de volledige foto zonder uitsnede. Het raam onder de kap is de hoofdfoto; het houten gebint is de detailfoto bij de werkwijze.
+Blauwdruk is gekozen als startpagina. De negen aangeleverde foto's uit Downloads zijn met behoud van de oorspronkelijke beeldbestanden opgenomen onder `public_html/assets/img/projecten/`, met beschrijvende bestandsnamen en metadata in het CMS. Iedere foto staat als afzonderlijk fotovak in de projectcollectie. Er zijn geen projectlocaties, opdrachtgevers of uitvoeringsdatums ingevuld. Het Blauwdruk-overzicht gebruikt drie kolommen op brede schermen, twee op middelgrote schermen en een horizontaal veegbare rij op mobiel. De bestaande dialoog toont de volledige foto zonder uitsnede. Het raam onder de kap is de hoofdfoto; het houten gebint is de detailfoto bij de werkwijze.
 
 ## Huisstijl en ontwerpplan
 
@@ -66,3 +66,9 @@ De drie diensten blijven wanden, plafonds en renovatie/herstel. De twee eerste d
 De contactbalk, het contactblok en de footer gebruiken de contactgegevens uit Site-instellingen of Algemeen. Lege velden vallen terug op de bedrijfsgegevens bij de offerte-instellingen. De aanvullende stijlen staan in `assets/blauwdruk.css`, zodat de offertepagina en overige publieke pagina’s dezelfde navigatie en footer delen.
 
 Deze wijzigingsronde is technisch gecontroleerd, inclusief de offerteberekeningen en de statische demo. De visuele beoordeling blijft bij de gebruiker; er is geen browser- of screenshotbeoordeling van de aangepaste site uitgevoerd.
+
+## Kortere mobiele homepage
+
+Onder 700 pixels schermbreedte staan alle projectfoto’s in één horizontaal veegbare rij met een zichtbare volgende foto, een bladerhint en een focusbare galerij voor toetsenbordbediening. Alle negen foto’s behouden hun bestaande vergrootdialoog. De drie diensten gebruiken een kleine foto naast de tekst. De extra introductie- en werkwijzefoto worden op mobiel verborgen; deze beelden zijn ook als projectfoto beschikbaar. Verder zijn de hoofdafbeelding, sectie-afstanden, offertebalk en footer compacter. De lopende tekst blijft 16 pixels. De desktopindeling blijft behouden.
+
+De agent heeft de HTML, routes en bestaande integratietests technisch gecontroleerd. De beoordeling op een echte telefoon blijft conform het centrale AGENTS.md bij de gebruiker.
