@@ -1,2 +1,3 @@
-public_html/assets/blauwdruk.css
-public_html/themas/blauwdruk.php
+public_html/data/content.json
+public_html/data/instellingen.json
+public_html/data/offerte-instellingen.json

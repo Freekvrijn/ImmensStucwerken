@@ -1,8 +1,20 @@
 {
     "actief": true,
     "diensten": [
-        {"id": "wanden", "naam": "Wanden stucen", "eenheid": "m²", "prijs_cent": 2500, "actief": true},
-        {"id": "plafonds", "naam": "Plafonds stucen", "eenheid": "m²", "prijs_cent": 2500, "actief": true}
+        {
+            "id": "wanden",
+            "naam": "Wanden stucen",
+            "eenheid": "m²",
+            "prijs_cent": 2500,
+            "actief": true
+        },
+        {
+            "id": "plafonds",
+            "naam": "Plafonds stucen",
+            "eenheid": "m²",
+            "prijs_cent": 2500,
+            "actief": true
+        }
     ],
     "reiskosten_cent": 15000,
     "minimum_cent": 0,
@@ -13,8 +25,8 @@
     "bedrijf": {
         "naam": "Immens Stucwerken",
         "adres": "Bremlaan 21, 5271 KE Sint-Michielsgestel",
-        "telefoon": "0647301052",
-        "email": "lukasimmensstukadoorsbedrijf@gmail.com",
+        "telefoon": "+31 6 47301052",
+        "email": "immensstucwerken@gmail.com",
         "kvk": "",
         "btw_nummer": ""
     }
