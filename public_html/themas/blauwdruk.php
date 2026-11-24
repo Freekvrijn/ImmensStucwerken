@@ -6,7 +6,7 @@
             <p class="vakregel">Immens Stucwerken</p>
             <h1 id="home-titel" data-veld="blauwdruk_titel"><?= tekst('blauwdruk_titel') ?></h1>
             <p class="intro" data-veld="home_intro"><?= tekst('home_intro') ?></p>
-            <div class="blauwdruk-hero-acties"><a class="knop" data-veld-link="home_cta_link" href="<?= e(veld($content,'home_cta_link')) ?>" data-veld="contact_knop"><?= tekst('contact_knop') ?></a><a class="tekstlink" href="#projecten">Bekijk ons werk</a></div>
+            <div class="blauwdruk-hero-acties"><a class="knop" data-veld-link="home_cta_link" href="<?= e(veld($content,'home_cta_link')) ?>" data-veld="contact_knop"><?= tekst('contact_knop') ?></a><a class="knop knop-secundair" href="#projecten">Bekijk ons werk</a></div>
         </div>
     </section>
     <section class="blauwdruk-welkom sectie" id="over-immens" aria-labelledby="intro-titel">
@@ -14,7 +14,7 @@
             <figure><?php foto('intro_afbeelding','','Gestucte wand met diepe raamopeningen'); ?></figure>
             <div><p class="vakregel">Aangenaam, Immens Stucwerken</p><h2 id="intro-titel" data-veld="intro_titel"><?= tekst('intro_titel') ?></h2><p class="welkom-tekst" data-veld="intro_tekst"><?= tekst('intro_tekst') ?></p>
                 <ul class="blauwdruk-kenmerken"><li data-veld="intro_punt1"><?= tekst('intro_punt1') ?></li><li data-veld="intro_punt2"><?= tekst('intro_punt2') ?></li><li data-veld="intro_punt3"><?= tekst('intro_punt3') ?></li></ul>
-                <a class="tekstlink" href="#werkwijze">Zo pakken we je project aan</a>
+                <a class="knop" href="#werkwijze">Zo pakken we je project aan</a>
             </div>
         </div>
     </section>

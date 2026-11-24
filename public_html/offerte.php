@@ -49,7 +49,7 @@ sitekop();
         <dl class="offerte-totalen"><div><dt>Subtotaal excl. btw</dt><dd><?= e(offerte_euro($calc['subtotaal_cent'])) ?></dd></div><div><dt>Btw (<?= (int)$calc['btw_percentage'] ?>%)</dt><dd><?= e(offerte_euro($calc['btw_cent'])) ?></dd></div><div class="offerte-eindtotaal"><dt>Totaal incl. btw</dt><dd><?= e(offerte_euro($calc['totaal_cent'])) ?></dd></div></dl>
         <h3>Voorwaarden</h3><p class="offerte-voorwaarden"><?= nl2br(e($record['instellingen']['voorwaarden'])) ?></p>
         <?php if($record['klant']['opmerking']!==''): ?><h3>Jouw toelichting</h3><p><?= nl2br(e($record['klant']['opmerking'])) ?></p><?php endif; ?>
-        <div class="offerte-acties"><a class="knop" href="/offerte-pdf.php?id=<?= e($record['id']) ?>">Download offerte als PDF</a><a class="tekstlink" href="/offerte">Nieuwe offerte maken</a></div>
+        <div class="offerte-acties"><a class="knop" href="/offerte-pdf.php?id=<?= e($record['id']) ?>">Download offerte als PDF</a><a class="knop" href="/offerte">Nieuwe offerte maken</a></div>
         <?php $business=$record['instellingen']['bedrijf']; if($business['email']!==''): ?><p>Je project bespreken? Mail <a href="mailto:<?= e($business['email']) ?>"><?= e($business['email']) ?></a> en vermeld <?= e($record['id']) ?>.</p><?php endif; ?>
     </section>
 <?php elseif(empty($config['actief'])): ?>

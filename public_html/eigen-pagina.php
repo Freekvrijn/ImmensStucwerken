@@ -15,7 +15,7 @@ if ($slug === 'privacy') {
 documentkop($sleutel, $pagina['seo_titel'] ?? ($pagina['titel'] . ' | Immens Stucwerken'), $pagina['omschrijving'] ?? '');
 sitekop();
 ?>
-<main class="eigen-pagina breed sectie" id="inhoud"><a class="tekstlink" href="/">Terug naar Immens</a><h1><?= e($pagina['titel']) ?></h1>
+<main class="eigen-pagina breed sectie" id="inhoud"><a class="knop" href="/">Terug naar Immens</a><h1><?= e($pagina['titel']) ?></h1>
 <?php if(!empty($pagina['intro'])): ?><p class="intro"><?= e($pagina['intro']) ?></p><?php endif; ?>
 <?php if(!empty($pagina['afbeelding']) && fotopad($pagina['afbeelding'])): ?><img class="eigen-foto" src="<?= e(fotopad($pagina['afbeelding'])) ?>" alt="<?= e($pagina['afbeelding_alt'] ?? '') ?>"><?php endif; ?>
 <?php if($slug === 'privacy'): ?><div class="eigen-inhoud"><?= $pagina['html'] ?><?php if(CMS_MODULE_GEOIP && function_exists('geoip_attributie_html')): ?><p><?= geoip_attributie_html() ?></p><?php endif; ?></div><?php else: foreach(cms_eigen_secties($pagina) as $sectie): if($sectie === 'inhoud'): ?>

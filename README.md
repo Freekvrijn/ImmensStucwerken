@@ -2,7 +2,7 @@
 
 De website gebruikt uitsluitend het ontwerp Blauwdruk, met het bestaande logo en de blauwe huisstijl. De andere ontwerpvarianten en het themamenu zijn verwijderd, ook uit het CMS en de statische demo. Oude adressen van de vervallen ontwerpen geven een 404. `/blauwdruk` blijft als alias van de homepage beschikbaar.
 
-Alle negen aangeleverde projectfoto's staan in de CMS-collectie en zijn afzonderlijk te openen. Twee van deze foto's worden ook als hoofd- en detailfoto gebruikt. Foto's hebben afgeronde hoeken; knoppen en overige vlakken behouden hun vorm.
+Alle negen aangeleverde projectfoto's staan in de CMS-collectie en zijn afzonderlijk te openen. Twee van deze foto's worden ook als hoofd- en detailfoto gebruikt. Foto's hebben afgeronde hoeken. Actielinks zijn vormgegeven als knoppen met afgeronde hoeken van 8px.
 
 De homepage heeft een directe contactbalk, een bedrijfsintroductie, drie diensten met eigen foto’s, een offertebalk en een uitgebreide footer, met inspiratie uit de opbouw van [Pijnappels](https://pijnappels-stukadoors.nl/). Alle nieuwe introductieteksten en dienstfoto’s zijn via het CMS aanpasbaar.
 

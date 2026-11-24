@@ -43,7 +43,7 @@ Lettertypen lokaal opgeslagen vanuit Google Fonts: Manrope en Barlow Condensed, 
 
 Het uploadarchief bevat alleen de websitebestanden die in de laatste wijzigingsronde zijn aangepast, met paden vanaf `public_html/`. De precieze inhoud staat in `UPLOAD-BESTANDEN.txt`. Bron-PDF, lokale router, tests, Git-placeholderbestanden en dit document zitten niet in het archief.
 
-De foto's hebben op verzoek afgeronde hoeken van 14px op de website. Logo, knoppen, formulieren en overige vlakken houden hun oorspronkelijke vorm.
+De foto's hebben op verzoek afgeronde hoeken van 14px op de website. Actieknoppen hebben afgeronde hoeken van 8px. De eerdere onderstreepte actielinks gebruiken dezelfde knopstijl. Logo, formuliervelden en overige vlakken houden hun oorspronkelijke vorm.
 
 ## Technische verificatie
 

@@ -22,7 +22,8 @@
 .blauwdruk-home .blauwdruk-intro>.intro{font-size:16px;line-height:1.8;margin:24px 0 30px;color:#e0edf8}
 .blauwdruk-home .blauwdruk-intro .vakregel{color:#c0e1fa}
 .blauwdruk-hero-acties{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
-.blauwdruk-hero-acties .tekstlink{font-size:14px;color:#fff;white-space:nowrap}
+.blauwdruk-hero-acties .knop-secundair{font-size:14px;color:#fff;background:transparent;border-color:#a4cce9}
+.blauwdruk-hero-acties .knop-secundair:hover{background:#245f9a}
 .blauwdruk-home .blauwdruk-welkom{background:white;color:#203345;margin-top:28px;--subtiel:#546575;--lijn:#d8e0e6}
 .blauwdruk-welkom-binnen{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1fr);gap:95px;align-items:center}
 .blauwdruk-welkom-binnen>figure>img{width:100%;aspect-ratio:1/1;object-fit:cover;object-position:center}
@@ -31,7 +32,7 @@
 .blauwdruk-kenmerken{list-style:none;padding:0;margin:26px 0 30px;border-top:1px solid #d8e0e6}
 .blauwdruk-kenmerken li{position:relative;font-size:15px;padding:14px 0 14px 28px;border-bottom:1px solid #d8e0e6}
 .blauwdruk-kenmerken li:before{content:'✓';position:absolute;left:0;color:#174c85;font-weight:700}
-.blauwdruk-welkom .tekstlink{font-size:14px;color:#174c85}
+.blauwdruk-welkom .knop{font-size:14px}
 .blauwdruk-home .blauwdruk-diensten{background:#f2f5f7;color:#203345;--subtiel:#546575;--lijn:#d8e0e6}
 .blauwdruk-home .blauwdruk-diensten .diensten-met-fotos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px;margin-top:0}
 .blauwdruk-diensten .diensten-met-fotos .dienst{display:flex;flex-direction:column;min-width:0}
@@ -40,7 +41,7 @@
 .dienst-inhoud{display:flex;flex-direction:column;align-items:flex-start;flex:1;padding-top:24px}
 .blauwdruk-diensten .diensten-met-fotos h3{font-size:28px;line-height:1.2;margin-bottom:14px}
 .blauwdruk-diensten .diensten-met-fotos p{font-size:16px;line-height:1.85;color:#546575;margin-bottom:24px}
-.blauwdruk-diensten .diensten-met-fotos .tekstlink{font-size:14px;color:#174c85;margin-top:auto}
+.blauwdruk-diensten .diensten-met-fotos .knop{font-size:14px;margin-top:auto}
 .blauwdruk-offerteband{background:#174c85;color:#fff;padding-block:55px}
 .blauwdruk-offerteband>.breed{display:flex;justify-content:space-between;align-items:center;gap:65px}
 .blauwdruk-offerteband .vakregel{color:#bcdff8}
@@ -114,7 +115,7 @@
     .dienst-inhoud{padding-top:0}
     .blauwdruk-diensten .diensten-met-fotos h3{font-size:24px;margin-bottom:10px}
     .blauwdruk-diensten .diensten-met-fotos p{font-size:16px;line-height:1.65;margin-bottom:8px}
-    .blauwdruk-diensten .diensten-met-fotos .tekstlink{display:inline-flex;align-items:center;min-height:44px;padding-block:8px}
+    .blauwdruk-diensten .diensten-met-fotos .knop{min-height:44px;max-width:100%;padding:10px 14px}
     .blauwdruk-offerteband{padding-block:30px}
     .blauwdruk-offerteband .vakregel{display:none}
     .blauwdruk-offerteband h2{font-size:29px}
@@ -145,3 +146,6 @@
     .bedrijfsvoet-onder{padding-block:18px;gap:12px}
 }
 .blauwdruk-projectlijst:focus-visible{outline:3px solid #73bdf2;outline-offset:6px}
+
+/* Afgeronde actieknoppen op alle publieke pagina’s. */
+.thema-blauwdruk .knop,.thema-blauwdruk .contactlink,.thema-blauwdruk .menu-toggle,.thema-blauwdruk .dialoog-sluiten,.thema-blauwdruk .project-bekijken{border-radius:8px;text-decoration:none}
